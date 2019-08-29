@@ -1,0 +1,150 @@
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="styleEditor.css" />
+
+    <title>Editor</title>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="#">Editor</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+
+
+    </ul>
+  </div>
+</nav>
+
+<!-- CONTENITORE -->
+<main role="main" class="container">
+  <div class="row" >
+    <div class="col-lg-4" id="audioPanel">
+      <h1 id="titleRecPlayer">Registra clip audio</h1>
+      <p id="message"></p>
+      <div>
+        <button class="btn btn-success" id="rec">Rec</button>
+        <button class="btn btn-warning" id="pause" disabled>Pause</button>
+        <button class="btn btn-danger" id="stop" disabled>Stop</button><br/><br/>
+        <audio class="hidden" id="player" controls></audio>
+        <h3 id="labelAzioni" class="font-weight-bold hidden"></h3><br/><br/>
+        <button class="btn btn-dark hidden" id="salva">Salva</button>
+        <button class="btn btn-dark hidden" id="update" disabled>Upload YT</button><br/><br/>
+      </div>
+      <div>
+        <h1 class="hidden" id="labelTab"></h1><br/><br/>
+        <table class="table hidden" id="tabClipSalvate">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Durata</th>
+              <th scope="col">Ora</th>
+              <th scope="col">Riproduci</th>
+              <th scope="col">Scarica</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyClipSalvate"> <!--Generato dinamicamente --> </tbody>
+        </table><br/><br/>
+      </div>
+    </div>
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4 text-white bg-danger hidden" id="dettagliClipPanel">
+      <h1> Dettagli clip</h1><hr/>
+      <div class="form-group">
+        <label class="labelDettagli" for="txtTitolo">Titolo:</label>
+        <input type="text" class="form-control" id="txtTitolo" required autocomplete>
+      </div>
+
+      <label class="labelDettagli" for="divPurpose">Scopo:</label><br/>
+      <div class="form-check form-check-inline" id="divPurpose">
+        <input class="form-check-input" type="radio" name="checkScopo" id="checkWhat" value="what">
+        <label class="form-check-label" for="checkWhat">What</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="checkScopo" id="checkHow" value="how">
+        <label class="form-check-label" for="checkHow">How</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="checkScopo" id="checkWhy" value="why">
+        <label class="form-check-label" for="checkWhy">Why</label>
+      </div>
+      <br/><br/>
+      <div class="form-group">
+        <label class="labelDettagli" for="selectCategoria">Categoria:</label> <br/>
+        <select id="selectCategoria" class="form-control selectDettagli" required>
+          <option value="none" selected>Generica</option>
+          <option value="nat">Natura</option>
+          <option value="art">Arte</option>
+          <option value="his">Storia</option>
+          <option value="flk">Folk</option>
+          <option value="mod">Cultura moderna</option>
+          <option value="rel">Religione</option>
+          <option value="cui">Cucina e drink</option>
+          <option value="spo">Sport</option>
+          <option value="mus">Musica</option>
+          <option value="mov">Film</option>
+          <option value="fas">Moda</option>
+          <option value="shp">Shopping</option>
+          <option value="tec">Tecnologia</option>
+          <option value="pop">Gossip</option>
+          <option value="prs">Esp. Personali</option>
+          <option value="oth">Altro</option>
+        </select>
+      </div>
+      <label class="labelDettagli" for="panelLingua">Lingua:</label>
+      <div class="input-group mb-3 selectDettagli" id="panelLingua">
+        <div class="input-group-prepend">
+          <label class="input-group-text" for="selectLingua">Audio</label>
+        </div>
+        <select class="custom-select" id="selectLingua" required>
+          <option value="ita" selected>Italiano</option>
+          <option value="eng">Inglese</option>
+          <option value="deu">Tedesco</option>
+          <option value="fra">Francese</option>
+          <option value="esp">Spagnolo</option>
+        </select>
+      </div>
+        <div class="form-group">
+          <label class="labelDettagli" for="txtGeoloc">Geolocalizazione:</label>
+          <input type="text" class="form-control" id="txtGeoloc" placeholder="||COORDINATE_ATTUALI||" required>
+        </div>
+        <div class="form-group">
+          <label class="labelDettagli" for="selectAudience">Pubblico:</label> <br/>
+          <select id="selectAudience" class="form-control selectDettagli" required>
+            <option value="gen" selected>Generico</option>
+            <option value="pre">Pre-scolare</option>
+            <option value="elm">Elementari</option>
+            <option value="mid">Scuola media</option>
+            <option value="scl">Specializzato</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="labelDettagli" for="selectDetail">Livello dettaglio:</label> <br/>
+          <select id="selectDetail" class="form-control selectDettagli" required>
+            <option value="1" selected>Normale(1)</option>
+            <option value="2">Approfondito(2)</option>
+            <option value="3">Molto Approfondito(3)</option>
+            <option value="4">Poema esagerato(4)</option>
+          </select>
+        </div>
+    </div>
+  </div>
+</main>
+
+<script src="/javascripts/clipAudio.js"> </script>
+<script src="/javascripts/updateClip.js"> </script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  </body>
+</html>

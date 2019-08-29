@@ -1,0 +1,43 @@
+body {
+  padding-top: 5rem;
+}
+
+.hidden{
+  display: none;
+}
+
+.container{
+  text-align: center;
+}
+#labelAzioni span {
+  font-size: 50%;
+  vertical-align:middle;
+}
+#labelTab span {
+  font-size: 45%;
+  vertical-align: top;
+}
+
+#dettagliClipPanel {
+  border-radius:7px;
+  text-align: left;
+}
+
+#dettagliClipPanel hr{
+  background-color: white;
+}
+
+.labelDettagli{
+  font-size: 1.2em;
+}
+
+.form-control{
+  width: 75%;
+}
+
+.selectDettagli{
+  width: auto;
+}
+#panelLingua{
+  width: 75%;
+}
