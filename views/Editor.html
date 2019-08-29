@@ -1,21 +1,22 @@
 
 <!doctype html>
 <html lang="it">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
 
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="styleEditor.css" />
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="styleEditor.css" >
+  <link href="https://cdn.maptiler.com/maptiler-geocoder/v1.1.0/maptiler-geocoder.css" rel="stylesheet" />
 
-    <title>Editor</title>
-  </head>
+  <title>Editor</title>
+</head>
 
-  <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-      <a class="navbar-brand" href="#">Editor</a>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand" href="#">Editor</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -47,13 +48,13 @@
         <h1 class="hidden" id="labelTab"></h1><br/><br/>
         <table class="table hidden" id="tabClipSalvate">
           <thead class="thead-dark">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Durata</th>
-              <th scope="col">Ora</th>
-              <th scope="col">Riproduci</th>
-              <th scope="col">Scarica</th>
-            </tr>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Durata</th>
+            <th scope="col">Ora</th>
+            <th scope="col">Riproduci</th>
+            <th scope="col">Scarica</th>
+          </tr>
           </thead>
           <tbody id="tbodyClipSalvate"> <!--Generato dinamicamente --> </tbody>
         </table><br/><br/>
@@ -69,7 +70,7 @@
 
       <label class="labelDettagli" for="divPurpose">Scopo:</label><br/>
       <div class="form-check form-check-inline" id="divPurpose">
-        <input class="form-check-input" type="radio" name="checkScopo" id="checkWhat" value="what">
+        <input class="form-check-input" type="radio" name="checkScopo" id="checkWhat" value="what" checked>
         <label class="form-check-label" for="checkWhat">What</label>
       </div>
       <div class="form-check form-check-inline">
@@ -81,6 +82,19 @@
         <label class="form-check-label" for="checkWhy">Why</label>
       </div>
       <br/><br/>
+      <label class="labelDettagli" for="panelLingua">Lingua:</label>
+      <div class="input-group mb-3 selectDettagli" id="panelLingua">
+        <div class="input-group-prepend">
+          <label class="input-group-text" for="selectLingua">Audio</label>
+        </div>
+        <select class="custom-select" id="selectLingua" required>
+          <option value="ita" selected>Italiano</option>
+          <option value="eng">Inglese</option>
+          <option value="deu">Tedesco</option>
+          <option value="fra">Francese</option>
+          <option value="esp">Spagnolo</option>
+        </select>
+      </div>
       <div class="form-group">
         <label class="labelDettagli" for="selectCategoria">Categoria:</label> <br/>
         <select id="selectCategoria" class="form-control selectDettagli" required>
@@ -103,48 +117,37 @@
           <option value="oth">Altro</option>
         </select>
       </div>
-      <label class="labelDettagli" for="panelLingua">Lingua:</label>
-      <div class="input-group mb-3 selectDettagli" id="panelLingua">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="selectLingua">Audio</label>
-        </div>
-        <select class="custom-select" id="selectLingua" required>
-          <option value="ita" selected>Italiano</option>
-          <option value="eng">Inglese</option>
-          <option value="deu">Tedesco</option>
-          <option value="fra">Francese</option>
-          <option value="esp">Spagnolo</option>
+
+      <div class="form-group">
+        <label class="labelDettagli" for="txtGeoloc">Posizione:</label>
+        <input type="text" class="form-control" id="txtGeoloc" placeholder="Posizione in caricamento..." autocomplete="off" required>
+      </div>
+      <div class="form-group">
+        <label class="labelDettagli" for="selectAudience">Pubblico:</label> <br/>
+        <select id="selectAudience" class="form-control selectDettagli" required>
+          <option value="gen" selected>Generico</option>
+          <option value="pre">Pre-scolare</option>
+          <option value="elm">Elementari</option>
+          <option value="mid">Scuola media</option>
+          <option value="scl">Specializzato</option>
         </select>
       </div>
-        <div class="form-group">
-          <label class="labelDettagli" for="txtGeoloc">Geolocalizazione:</label>
-          <input type="text" class="form-control" id="txtGeoloc" placeholder="||COORDINATE_ATTUALI||" required>
-        </div>
-        <div class="form-group">
-          <label class="labelDettagli" for="selectAudience">Pubblico:</label> <br/>
-          <select id="selectAudience" class="form-control selectDettagli" required>
-            <option value="gen" selected>Generico</option>
-            <option value="pre">Pre-scolare</option>
-            <option value="elm">Elementari</option>
-            <option value="mid">Scuola media</option>
-            <option value="scl">Specializzato</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="labelDettagli" for="selectDetail">Livello dettaglio:</label> <br/>
-          <select id="selectDetail" class="form-control selectDettagli" required>
-            <option value="1" selected>Normale(1)</option>
-            <option value="2">Approfondito(2)</option>
-            <option value="3">Molto Approfondito(3)</option>
-            <option value="4">Poema esagerato(4)</option>
-          </select>
-        </div>
+      <div class="form-group">
+        <label class="labelDettagli" for="selectDetail">Livello dettaglio:</label> <br/>
+        <select id="selectDetail" class="form-control selectDettagli" required>
+          <option value="1" selected>Normale(1)</option>
+          <option value="2">Approfondito(2)</option>
+          <option value="3">Molto Approfondito(3)</option>
+          <option value="4">Poema esagerato(4)</option>
+        </select>
+      </div>
     </div>
   </div>
 </main>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.maptiler.com/maptiler-geocoder/v1.1.0/maptiler-geocoder.js"></script>
 <script src="/javascripts/clipAudio.js"> </script>
 <script src="/javascripts/updateClip.js"> </script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  </body>
+</body>
 </html>

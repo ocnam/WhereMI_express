@@ -12,10 +12,18 @@ var tabClipSalvate = document.getElementById('tabClipSalvate');
 var contenutoTabClipSalvate = document.getElementById('tbodyClipSalvate');
 var dettaglioPanel = document.getElementById('dettagliClipPanel');
 var labelTabSaveClip = document.getElementById('labelTab');
+var geoText = document.getElementById('txtGeoloc');
 
 var clipRegistrate= [];   //array di clip salvate
 
-
+//geolocalizzazione + find address
+getLocation();
+/*
+function initialize() {
+  new google.maps.places.Autocomplete(geoText);
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+*/
 
 //Contolla il supporto delle API video/audio
 var checkCompatibility = function(){
@@ -32,29 +40,29 @@ var checkCompatibility = function(){
     return false;
   }else{
     if(!navigator.mediaDevices.getUserMedia){
-       alert('"navigator.mediaDevices.getUserMedia" not supported on your browser! \nUse the latest version of Chrome, Firefox or Opera');
-       return false;
-     }else{
-        if (window.MediaRecorder == undefined) {
-          alert('MediaRecorder not supported on your browser! (sorry Edge :/)\nUse the latest version of Chrome, Firefox or Opera');
-          return false;
-         }else{
-           console.log("OK: Supporto API audio/video (MediaRecorder)")
-           return true;
-         }}}
- }();
+      alert('"navigator.mediaDevices.getUserMedia" not supported on your browser! \nUse the latest version of Chrome, Firefox or Opera');
+      return false;
+    }else{
+      if (window.MediaRecorder == undefined) {
+        alert('MediaRecorder not supported on your browser! (sorry Edge :/)\nUse the latest version of Chrome, Firefox or Opera');
+        return false;
+      }else{
+        console.log("OK: Supporto API audio/video (MediaRecorder)")
+        return true;
+      }}}
+}();
 
 //Funzione principale per far partire flusso audio
 rec.onclick = function(){
   if(checkCompatibility){
     navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-    .then(manageAudioStream)
-    .catch(function(err) {
-      console.log(err.name + ": " + err.message);
-      if(err.name = "NotAllowedError"){
-        alert("Per utilizzare questa funzione devi autorizzare l'utilizzo del microfono!");
-        location.reload();
-      }});
+        .then(manageAudioStream)
+        .catch(function(err) {
+          console.log(err.name + ": " + err.message);
+          if(err.name = "NotAllowedError"){
+            alert("Per utilizzare questa funzione devi autorizzare l'utilizzo del microfono!");
+            location.reload();
+          }});
   }}
 
 //Gestisci stream audio
@@ -104,7 +112,7 @@ var manageAudioStream = function(stream) {
         mediaRecorder.resume();
         countdown = setInterval(incrementSeconds,1000);
         pause.innerText ="Pause";
-      break;
+        break;
     }
   }
 
@@ -146,8 +154,6 @@ var manageAudioStream = function(stream) {
       contenutoTabClipSalvate.innerHTML += "<tr><th scope='row'>"+(index+1)+"</th><td>"+clip.durata+"s</<td><td>"+clip.orario+"</td><td><button class='btn btn-primary' onclick='replayClip("+index+")'>Play</button></td><td><button class='btn btn-link' onclick='downloadClip("+index+")'>Download</button></td></tr>";
     });
 
-    getLocation();
-
     //Cambiamenti UI
     tabClipSalvate.style= "display:initial";
     labelTabSaveClip.style = "display:initial";
@@ -157,19 +163,6 @@ var manageAudioStream = function(stream) {
     salva.disabled = true;
   }
 }
-
-var geoText = document.getElementById('txtGeoloc');
-
-function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position){
-        geoText.placeholder = position.coords.latitude + "/" + position.coords.longitude;
-    });
-  } else {
-    alert("Geolocation is not supported by this browser.");
-  }
-}
-
 //riproduco nel player audio
 function replayClip(index) {
   var clip = clipRegistrate[index];
@@ -192,7 +185,61 @@ function downloadClip(index){
   window.URL.revokeObjectURL(clip.url);
 }
 
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position){
+      window.lat = position.coords.latitude;
+      window.long = position.coords.longitude;
+
+      reversePosition(window.lat,window.long);
+    });
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
+}
+
+function reversePosition(lat,long){
+  addressReverse = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" + lat + "&lon=" + long;
+
+  $.get(addressReverse, function( data ) {
+    var addressData = data.address;
+    geoText.value = data.display_name;
+  })
+      .fail(function() {
+        return "fail";
+      });
+}
+
+function getLatLong(address){
+  api = "https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q=" + address + "&format=json&limit=1";
+
+  $.get(api, function( data ) {
+    window.lat  = data[0].lat;
+    window.long = data[0].lon;
+  })
+      .fail(function() {
+        alert("fail");
+      });
+}
+
+//autocomplete localita'
+geoText.oninput = function(){
+  geoText.placeholder = "Inserisci località"
+  var geocoder = new maptiler.Geocoder({
+    input: 'txtGeoloc',
+    key: 'w3QgmoHc3HOrAZj366SR'
+  });
+
+  geocoder.on('select', function(item) {
+    geoText.value = item.place_name;
+    getLatLong(item.place_name);
+  });
+};
+
+
+
 //funzione globale per ottenere le clip registrate
 window.getSaveClip = function(){
   return clipRegistrate;
-}
+};
