@@ -7,7 +7,7 @@ app.use(express.static( __dirname + "/public" ));
 
 // ROUTE PER PAGINA INDEX
 app.get('/', (req, res)=>{
-  res.sendFile('index.html', {root: __dirname + "/views"});
+  res.sendFile('Index.html', {root: __dirname + "/views"});
 });
 
 /// ROUTE PER PAGINA BROWSER.HTML
