@@ -4,6 +4,7 @@ var selectLingua = document.getElementById("selectLingua");
 var selectCategoria = document.getElementById("selectCategoria");
 var selectAudience = document.getElementById("selectAudience");
 var selectDetail = document.getElementById("selectDetail");
+var player = document.getElementById('player');
 
 //8FPHF800+-8FPHF8VV+-8FPHF8VV+57:what:ita:*
 //8FPHF800+-8FPHF8VV+-8FPHF8VV+57:why:ita:his-art:Aall:P2
@@ -11,10 +12,21 @@ var selectDetail = document.getElementById("selectDetail");
 //||OLC||:how:ita:his:Agen:P1
 
 update_btn.onclick = function(){
-  var lastClip = clips[clips.length - 1];
+  var lastClip;
+  //nessuna clip vecchia caricata
+  if(player.readyState == 0){
+    lastClip = clips[clips.length - 1];
+    console.log("Ultima clip");
+  }else{
+    lastClip = player.src;
+    console.log("Clip precedente");
+  }
+
+  console.log(lastClip);
+  /*
   clips.forEach(function(item){
     console.log(item);
-  });
+  });*/
 
   //get value - metadati(form)
   var scopo = document.querySelector('input[name="checkScopo"]:checked').value;
