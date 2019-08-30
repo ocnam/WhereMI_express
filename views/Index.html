@@ -52,12 +52,16 @@
             .carousel .carousel-item video {
                 min-width: 100%;
                 min-height: 100%;
-                width: auto;
-                height: auto;
+               /* width: auto;
+                height: auto;*/
+                width: 100%    !important;
+                height: auto   !important;
+                padding-bottom: 155px;
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                margin-top: 150px;
+                /*margin-top: 150px;*/
+                /*padding-bottom: 420px;*/
             }
         </style>
     </head>
@@ -111,7 +115,10 @@
                         <!--Video source-->
                         <video autoplay loop playsinline muted>
                             <!-- <source src="ezgif.com-rotate.mp4" type="video/mp4" /> -->
-                            <source src="ezgif.mp4" type="video/mp4" />
+                           <!-- <source src="ezgif.mp4" type="video/mp4" /> -->
+                            <source src="izi_final.mp4" type="video/mp4" />
+                            <track label="Italian" kind="subtitles" srclang="it" src="izi.vtt" default>
+
 
                         </video>
                         <!-- Carousel content -->
