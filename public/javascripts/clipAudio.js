@@ -18,12 +18,6 @@ var clipRegistrate= [];   //array di clip salvate
 
 //geolocalizzazione + find address
 getLocation();
-/*
-function initialize() {
-  new google.maps.places.Autocomplete(geoText);
-}
-google.maps.event.addDomListener(window, 'load', initialize);
-*/
 
 //Contolla il supporto delle API video/audio
 var checkCompatibility = function(){
@@ -138,11 +132,12 @@ var manageAudioStream = function(stream) {
   }
 
   salva.onclick = function(){
-    var blob = new Blob(buffer,{type:'video/mp4'});     //audio/mpeg3 or video/webm
+    var blob = new Blob(buffer,{type:'audio/mpeg3'});     //audio/mpeg3 or video/webm
 
     //Salvo in un array clip e metadati tecnici
     clip = {
-      url: URL.createObjectURL(blob),
+      //url: URL.createObjectURL(blob),
+      raw: blob,
       durata: seconds,
       orario: new Date().toLocaleTimeString()
     }
@@ -166,8 +161,9 @@ var manageAudioStream = function(stream) {
 //riproduco nel player audio
 function replayClip(index) {
   var clip = clipRegistrate[index];
+  var urlClip = URL.createObjectURL(clip.raw);
 
-  player.src = clip.url;
+  player.src = urlClip;
   player.style = "display:initial";
   player.play();
 }
@@ -175,16 +171,16 @@ function replayClip(index) {
 //Creazione del link di download
 function downloadClip(index){
   var clip = clipRegistrate[index];
+  var urlClip = URL.createObjectURL(clip.raw);
 
   var a = document.createElement('a');
   document.body.appendChild(a);
   a.style = 'display: none';
-  a.href = clip.url;
+  a.href = urlClip;
   a.download = "clip_"+clip.durata+"s("+clip.orario.substr(0,5)+").mp4";
   a.click();
-  window.URL.revokeObjectURL(clip.url);
+  window.URL.revokeObjectURL(urlClip);
 }
-
 
 function getLocation() {
   if (navigator.geolocation) {
