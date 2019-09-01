@@ -13,7 +13,7 @@ app.use(express.static( __dirname + "/public" ));
 
 // ROUTE PER PAGINA INDEX
 app.get('/', (req, res)=>{
-  res.render('Index');
+  res.sendFile('Index.html', {root: __dirname + "/views"});
 });
 
 /// ROUTE PER PAGINA BROWSER.HTML
