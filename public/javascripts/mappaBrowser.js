@@ -34,6 +34,10 @@ searchControl.on('results', function (data) {
     results.clearLayers();
     for (var i = data.results.length - 1; i >= 0; i--) {
         results.addLayer(L.marker(data.results[i].latlng));
+        if (newMarker) {
+            map.removeLayer(newMarker);
+        }
+
     }
 });
 
@@ -48,7 +52,7 @@ let options ={
 L.tripgoRouting.mapLayer.initialize(options);
 
  */
-// indications on maps// indications on maps
+// indications on maps
 var control = L.Routing.control(L.extend(window.lrmConfig, {
 
     geocoder: L.Control.Geocoder.nominatim(),

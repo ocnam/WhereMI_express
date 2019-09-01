@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 
     <head>
         <meta charset="utf-8">
@@ -13,57 +13,8 @@
         <!-- Material Design Bootstrap -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.8/css/mdb.min.css" rel="stylesheet">
 
-        <style type="text/css">
-            /* Navigation*/
-            .navbar {
-                background-color: transparent;
-            }
-            .scrolling-navbar {
-                transition: background .5s ease-in-out, padding .5s ease-in-out;
-            }
-            .top-nav-collapse {
-                background-color: #34456a;
-            }
-            footer.page-footer {
-                background-color: #34456a;
-            }
-            @media only screen and (max-width: 768px) {
-                .navbar {
-                    background-color: #34456a;
-                }
-            }
+        <link rel="stylesheet" href="styleIndex.css" />
 
-            /* Necessary for full page carousel*/
-            html,
-            body,
-            .view {
-                height: 100%;
-            }
-
-            /* Carousel*/
-            .carousel,
-            .carousel-item,
-            .carousel-item.active {
-                height: 100%;
-            }
-            .carousel-inner {
-                height: 100%;
-            }
-            .carousel .carousel-item video {
-                min-width: 100%;
-                min-height: 100%;
-               /* width: auto;
-                height: auto;*/
-                width: 100%    !important;
-                height: auto   !important;
-                padding-bottom: 155px;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                /*margin-top: 150px;*/
-                /*padding-bottom: 420px;*/
-            }
-        </style>
     </head>
 
     <body>
@@ -90,15 +41,26 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Browser">Browser</a>
+                        <a class="nav-link" href="/browser">Browser</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="editor">Editor</a>
+                        <a class="nav-link" href="/editor">Editor</a>
+                    </li>
+                    <!-- Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Subtitles languages</a>
+                        <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" id="sub_en" href="#">English</a>
+                            <a class="dropdown-item" id="sub_it" href="#">Italian</a>
+                            <a class="dropdown-item" id="sub_sp" href="#">Spanish</a>
+                            <a class="dropdown-item" id="sub_fr" href="#">French</a>
+                            <a class="dropdown-item" id="sub_ge" href="#">German</a>
+                        </div>
                     </li>
 
                 </ul>
                 <!-- Links -->
-
+            </div>
 
         </nav>
         <!--/.Navbar-->
@@ -115,10 +77,8 @@
                         <video autoplay loop playsinline muted>
                             <!-- <source src="ezgif.com-rotate.mp4" type="video/mp4" /> -->
                            <!-- <source src="ezgif.mp4" type="video/mp4" /> -->
-                            <source src="izi_final.mp4" type="video/mp4" />
-                            <track label="Italian" kind="subtitles" srclang="it" src="izi.vtt" default>
-
-
+                            <source src="video/video_final.mp4" type="video/mp4" />
+                            <track id="track" label="Italian" kind="subtitles" srclang="it" src="subtitles/italian_sub.vtt" default>
                         </video>
                         <!-- Carousel content -->
                         <div class="full-bg-img flex-center mask rgba-indigo-light white-text">
@@ -157,13 +117,10 @@
 
                 <!-- Grid row -->
                 <div class="row">
-
-
-
                     <!-- Grid column -->
                     <div class="col-lg-4 col-md-6 mb-lg-0 mb-5">
                         <div class="avatar mx-auto">
-                            <img src="marco.jfif" class="rounded-circle z-depth-1"
+                            <img src="images/marco.jfif" class="rounded-circle z-depth-1"
                                  alt="Sample avatar">
                         </div>
                         <h5 class="font-weight-bold mt-4 mb-3">Marco Bronzini</h5>
@@ -186,7 +143,7 @@
                     <!-- Grid column -->
                     <div class="col-lg-4 col-md-6 mb-md-0 mb-5">
                         <div class="avatar mx-auto">
-                            <img src="ocnam.jfif" class="rounded-circle z-depth-1"
+                            <img src="images/ocnam.jfif" class="rounded-circle z-depth-1"
                                  alt="Sample avatar">
                         </div>
                         <h5 class="font-weight-bold mt-4 mb-3">Andrea Manco</h5>
@@ -213,7 +170,7 @@
                     <!-- Grid column -->
                     <div class="col-lg-4 col-md-6">
                         <div class="avatar mx-auto">
-                            <img src="andrea.jfif" class="rounded-circle z-depth-1"
+                            <img src="images/andrea.jfif" class="rounded-circle z-depth-1"
                                  alt="Sample avatar">
                         </div>
                         <h5 class="font-weight-bold mt-4 mb-3">Andrea Lo Franco</h5>
@@ -259,6 +216,9 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" ></script>
         <!-- MDB core JavaScript -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.8/css/mdb.min.css" rel="stylesheet">
+
+        <script src="javascripts/subtitles.js"> </script>
+
     </body>
 
 </html>
