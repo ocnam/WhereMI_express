@@ -14,23 +14,21 @@ var clips = window.getSaveClip();    //Ottieni array clip salvate
 
 update_btn.onclick = function(){
   getClip(); //ottieni la clip audio
-  uploadClip()
+  uploadClip();
 }
 
 function getClip(){
-  //seleziona la clip
   if(player.readyState == 0){   //nessuna clip precedente, seleziona l'ultima registrazione
     lastClip = clips[clips.length - 1];
-    console.log("Ultima clip");
+    console.log("Seleziono - Ultima clip");
   }else{
-    lastClip = player.src;  //clip precedente caricata 
-    console.log("Clip precedente");
+    lastClip = window.correntAudioReplay; //Clip precedente (src player)
+    console.log("Seleziono - Clip precedente");
   }
-  console.log(lastClip);
 }
 
 function uploadClip(){
-  //ottengo valori form
+  //Ottengo valori form
   titoloClip = txt_titolo.value;
   var scopo = document.querySelector('input[name="checkScopo"]:checked').value;
   var lingua = selectLingua.options[selectLingua.selectedIndex].value;
@@ -39,8 +37,7 @@ function uploadClip(){
   var dettaglio = selectDetail.options[selectDetail.selectedIndex].value;
 
   //Converto posizione nel codice OLC
-  var urlCodereverse = "https://plus.codes/api?address=" + window.lat +","+window.long;
-
+  var urlCodereverse = "https://plus.codes/api?address=" + window.lat +","+window.long; //URL API di OLC(Plus code)
   $.get(urlCodereverse, function( data ) {
     var openLocationCode = data.plus_code.global_code;
 
@@ -52,7 +49,7 @@ function uploadClip(){
     }
 
     if(titoloClip!=""){  
-      sendClipServer();
+      sendClipServer();   //richiamo funzione chiamata server
 
       //Cambiamenti UI
       titoloForm.innerText = "Uploading...";
@@ -68,8 +65,7 @@ function uploadClip(){
 }
 
 function sendClipServer(){
-
-  //converto i dati grezzi flusso audio
+  //Converto i dati grezzi flusso audio
   var reader = new window.FileReader();
   reader.readAsDataURL(lastClip.raw);
   reader.onloadend = function () {
@@ -80,17 +76,17 @@ function sendClipServer(){
       clip: clipAudio, 
       durata:lastClip.durata, 
       orario:lastClip.orario,
+      data: lastClip.data,
       titolo: titoloClip,
       metadati: metadatiClip,
     })
-      .done(function( ack ) {
-        if(ack = "200 OK"){
-          //Cambiamenti UI
+      .done(function( ackServer ) {
+        if(ackServer = "200 OK"){
+          alert("Caricamento con successo! \nSarà online in circa 5 minuti");
           titoloForm.innerText = "Dettagli clip";
           formMeta.classList.remove("bg-warning");
-          alert("Caricamento con successo!");
         }else{
-          alert("Errore interno al server, ritenta")
+          alert("Errore interno al server, ritenta!")
         }
       })
       .fail(function() {

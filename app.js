@@ -43,6 +43,7 @@ app.post('/api/audioclip', function(req, res) {
   var rawClip = req.body.clip;
   var durata = req.body.durata;
   var orario = req.body.orario;
+  var data = req.body.data;
   var titolo = req.body.titolo;
   var metadati = req.body.metadati;
 
@@ -53,7 +54,7 @@ app.post('/api/audioclip', function(req, res) {
     resource_type: "video",
     upload_preset: "toMp4",
     tags: [metadati],
-    public_id: titolo + "["+orario+"]",
+    public_id: titolo + "["+orario+"]"+ "["+data+"]",
     context: {
       alt: metadati,
       caption: titolo

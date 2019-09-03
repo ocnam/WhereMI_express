@@ -62,19 +62,11 @@ rec.onclick = function(){
 var myMimeType = 'video/mp4';
 
 /*
-video/mp4
 audio/wav
 audio/webm
 audio/ogg
 video/webm;codecs=h264
 */
-
-
-/*
-
-*/
-
-
 
 //Gestisci stream audio
 var manageAudioStream = function(stream) {
@@ -103,7 +95,7 @@ var manageAudioStream = function(stream) {
   var seconds = 0;
   function incrementSeconds(){
     seconds+=1;
-    messageLabel.innerHTML = "<span class='badge badge-success'>...in ascolto("+seconds+"s)</span>";
+    messageLabel.innerHTML = "<span class='badge badge-success'>...in ascolto ("+seconds+"s)</span>";
   }
   var countdown = setInterval(incrementSeconds,1000);
 
@@ -153,21 +145,22 @@ var manageAudioStream = function(stream) {
 
   salva.onclick = function(){
     var blob = new Blob(buffer,{type:myMimeType});     //audio/mpeg3 or video/webm
-    var ora =  new Date().getDate() + "-" + new Date().getMonth() + "-" + new Date().getFullYear()+ "("+new Date().toLocaleTimeString() + ")";
+    var oggi = new Date().getDate() + "-" + new Date().getMonth() + "-" + new Date().getFullYear();
+    var time = new Date().toLocaleTimeString().substr(0,5);
 
     //Salvo in un array clip e metadati tecnici
     clip = {
-      //url: URL.createObjectURL(blob),
       raw: blob,
       durata: seconds,
-      orario:ora
+      orario:time,
+      data: oggi
     }
     clipRegistrate.push(clip);
 
     //aggiorno la tabella clip
     contenutoTabClipSalvate.innerHTML = "";
     clipRegistrate.forEach(function(clip,index){
-      contenutoTabClipSalvate.innerHTML += "<tr><th scope='row'>"+(index+1)+"</th><td>"+clip.durata+"s</<td><td>"+clip.orario+"</td><td><button class='btn btn-primary' onclick='replayClip("+index+")'>Play</button></td><td><button class='btn btn-link' onclick='downloadClip("+index+")'>Download</button></td></tr>";
+      contenutoTabClipSalvate.innerHTML += "<tr><th scope='row'>"+(index+1)+"</th><td>"+clip.durata+"s</<td><td>"+clip.orario+"<br/>("+clip.data+")</td><td><button class='btn btn-primary' onclick='replayClip("+index+")'>Play</button></td></tr>";
     });
 
     //Cambiamenti UI
@@ -183,6 +176,8 @@ var manageAudioStream = function(stream) {
 function replayClip(index) {
   var clip = clipRegistrate[index];
   var urlClip = URL.createObjectURL(clip.raw);
+
+  window.correntAudioReplay = clip;
 
   player.src = urlClip;
   player.style = "display:initial";
@@ -253,8 +248,6 @@ geoText.oninput = function(){
     getLatLong(item.place_name);
   });
 };
-
-
 
 //funzione globale per ottenere le clip registrate
 window.getSaveClip = function(){

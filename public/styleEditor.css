@@ -58,3 +58,11 @@ body {
 #panelLingua{
   width: 75%;
 }
+
+.bg-warning{
+  opacity: 0.7;
+  transform: scale(0.9);
+}
+.bg-danger .span{
+  transition: 1s;
+}
