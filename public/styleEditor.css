@@ -34,9 +34,10 @@ body {
 }
 
 #dettagliClipPanel {
-  border-radius:7px;
+  border-radius:5px;
   text-align: left;
   margin-bottom: 75px;
+  padding-top: 2%;
 }
 
 #dettagliClipPanel hr{
