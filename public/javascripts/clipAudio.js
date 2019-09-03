@@ -59,10 +59,30 @@ rec.onclick = function(){
           }});
   }}
 
+var myMimeType = 'video/mp4';
+
+/*
+video/mp4
+audio/wav
+audio/webm
+audio/ogg
+video/webm;codecs=h264
+*/
+
+
+/*
+
+*/
+
+
+
 //Gestisci stream audio
 var manageAudioStream = function(stream) {
-  var optionsStream = {mimeType: 'video/webm;codecs=h264'};
-  var mediaRecorder = new MediaRecorder(stream,optionsStream);
+ 
+  //Setup recorder
+  var mediaRecorder = new MediaRecorder(stream);
+  mediaRecorder.mimeType = myMimeType;
+  mediaRecorder.canvas = {width: 1280,height: 720};
   mediaRecorder.ondataavailable = handleDataAvailable;
 
   var buffer = [];    //buffer registrazionie
@@ -132,14 +152,15 @@ var manageAudioStream = function(stream) {
   }
 
   salva.onclick = function(){
-    var blob = new Blob(buffer,{type:'audio/mpeg3'});     //audio/mpeg3 or video/webm
+    var blob = new Blob(buffer,{type:myMimeType});     //audio/mpeg3 or video/webm
+    var ora =  new Date().getDate() + "-" + new Date().getMonth() + "-" + new Date().getFullYear()+ "("+new Date().toLocaleTimeString() + ")";
 
     //Salvo in un array clip e metadati tecnici
     clip = {
       //url: URL.createObjectURL(blob),
       raw: blob,
       durata: seconds,
-      orario: new Date().toLocaleTimeString()
+      orario:ora
     }
     clipRegistrate.push(clip);
 

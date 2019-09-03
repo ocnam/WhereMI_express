@@ -43,18 +43,28 @@ app.post('/api/audioclip', function(req, res) {
   var rawClip = req.body.clip;
   var durata = req.body.durata;
   var orario = req.body.orario;
+  var titolo = req.body.titolo;
+  var metadati = req.body.metadati;
+
+  console.log(orario);
 
   //upload su server cloudinary
   cloudinary.uploader.upload(rawClip, { 
     resource_type: "video",
-    public_id: "clipAudio/myClip_("+durata+"s)_h" + orario,
+    upload_preset: "toMp4",
+    tags: [metadati],
+    public_id: titolo + "["+orario+"]",
+    context: {
+      alt: metadati,
+      caption: titolo
+    }
   },
   function(error, result) {
     console.log(result, error);
     if(error){
       res.send ("error upload to cloud server");
     }else{
-      res.send ("200 OK - " + result.public_id);  //restituisce client esito positivo
+      res.send ("200 OK");  //restituisce client esito positivo
     }
   });
 });
