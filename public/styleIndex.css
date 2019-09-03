@@ -1,6 +1,6 @@
 /* Navigation*/
 .navbar {
-    background-color: transparent;
+    background-color: #34456a;
 }
 .scrolling-navbar {
     transition: background .5s ease-in-out, padding .5s ease-in-out;

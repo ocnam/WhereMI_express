@@ -1,10 +1,12 @@
 .navbar {
   background-color: #34456a;
+  /*height: auto;*/
 }
 
 .scrolling-navbar {
   transition: background .5s ease-in-out, padding .5s ease-in-out;
 }
+
 
 footer.page-footer {
   position: fixed;
