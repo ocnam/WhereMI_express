@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>WHERE M I</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- META FOR GOOGLE SIGN-IN -->
-    <meta name="google-signin-client_id" content="627047363493-2kvb9g76tspq06elupu2cmtp83f24mj6.apps.googleusercontent.com">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Where M I</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.8/css/mdb.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="styleBrowser.css" />
 
@@ -22,101 +25,70 @@
           integrity="sha512-v5YmWLm8KqAAmg5808pETiccEohtt8rPVMGQ1jA6jqkWVydV5Cuz3nJ9fQ7ittSxvuqsvI9RSGfVoKPaAJZ/AQ=="
           crossorigin="">
 
-    <!-- loading routing for indications on maos -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
-
-    <!-- SCRIPT FOR GOOGLE LOG-IN
-    <script src="https://apis.google.com/js/platform.js" async defer></script> -->
-
-    <!-- <script src="newjavascript.js"></script> -->
+    <!-- loading routing for indications on maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css"/>
 
     <!-- button play, next,.. script -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
 </head>
+
 <body>
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark scrolling-navbar fixed-top">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <!-- Navbar brand -->
+        <a class="navbar-brand" href="/">Where M I</a>
 
-<!-- Make sure you put this AFTER Leaflet's CSS -->
-<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
-        integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
-        crossorigin=""></script>
+        <!-- Collapse button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="basicExampleNav">
 
-<!-- SCRIPT FOR GEOCODING & GEOSEARCH -->
-<!-- Load Esri Leaflet from CDN -->
-<script src="https://unpkg.com/esri-leaflet@2.3.0/dist/esri-leaflet.js"
-        integrity="sha512-1tScwpjXwwnm6tTva0l0/ZgM3rYNbdyMj5q6RSQMbNX6EUMhYDE3pMRGZaT41zHEvLoWEK7qFEJmZDOoDMU7/Q=="
-        crossorigin=""></script>
-
-<!-- Load Esri Leaflet Geocoder from CDN -->
-<script src="https://unpkg.com/esri-leaflet-geocoder@2.2.14/dist/esri-leaflet-geocoder.js"
-        integrity="sha512-uK5jVwR81KVTGe8KpJa1QIN4n60TsSV8+DPbL5wWlYQvb0/nYNgSOg9dZG6ViQhwx/gaMszuWllTemL+K+IXjg=="
-        crossorigin=""></script>
-
-
-<!-- script indications on maps    https://github.com/skedgo/tripkit-leaflet -->
-<!-- <link rel="stylesheet" href="TripgoRouting.css" />
-<script src="javascripts/TripgoRouting.js"></script>
-<script src="javascripts/Polyline.encoded.js"></script>
-<script src="javascripts/jquery-3.2.1.js"></script>
--->
-
-<!-- script for indications on maps -->
-<script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
-<script src="javascripts/Geocoder.js"></script>
-<script src="javascripts/config.js"></script>
-
-
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">Where M I</a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-
-                <li class="active">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="/browser">Browser<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Next</a></li>
-                        <li><a href="#">Previous</a></li>
-                        <li><a href="#">More</a></li>
-                    </ul>
+            <!-- Links -->
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="/browser" id="navbarDropdownMenuLinkBrowser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Browser
+                        <span class="sr-only">(current)</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="#">Next</a>
+                        <a class="dropdown-item" href="#">Previous</a>
+                        <a class="dropdown-item" href="#">More</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLinkEditor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Editor</a>
+                    <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/editor">Nuova Clip</a>
+                        <a class="dropdown-item" href="#">Clip salvate</a>
+                        <a class="dropdown-item" href="#">Youtube clip</a>
+                    </div>
                 </li>
 
-                <!-- <li class="active"><a href="#">Maps</a></li> -->
-                <li class="dropdownEditor">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="/editor">Editor<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Nuova Clip</a></li>
-                        <li><a href="#">Clip salvate</a></li>
-                        <li><a href="#">Youtube Clip</a></li>
-                    </ul>
+                <!-- Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLinkLanguages" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Languages</a>
+                    <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" id="sub_en" href="#">English</a>
+                        <a class="dropdown-item" id="sub_it" href="#">Italian</a>
+                        <a class="dropdown-item" id="sub_sp" href="#">Spanish</a>
+                        <a class="dropdown-item" id="sub_fr" href="#">French</a>
+                        <a class="dropdown-item" id="sub_ge" href="#">German</a>
+                    </div>
                 </li>
-                <li class="dropdownLanguages">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Languages <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Italian</a></li>
-                        <li><a href="#">English</a></li>
-                        <li><a href="#">...</a></li>
-                    </ul>
-                </li>
+
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="login"><a href="#" data-toggle="modal" data-target="#myModal">  ><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-            </ul>
+            <!-- Links -->
         </div>
-    </div>
-</nav>
+    </nav>
+    <!--/.Navbar-->
 
 <!-- <div id="mapid"></div> -->
 
@@ -124,20 +96,20 @@
     <div class="col-sm-9" id="map"></div>
 
     <div class="col-sm-3">
-        <div id="controlPlay">
+        <div id="controlAndFilters">
             <button title="Previous"><i class="fa fa-fast-backward"></i></button>
             <button title="Where M I"><i class="fa fa-play"></i></button>
             <button title="Next"><i class="fa fa-fast-forward"></i></button>
 
             <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalFilters">
+                Filters
+            </button>
 
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalFilters">
-                    Filters
-                </button>
 
-
-            <!-- Modal -->
-            <div class="modal fade" id="ModalFilters" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <!-- Modal FILTERS -->
+            <div class="modal fade" id="ModalFilters" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -156,16 +128,88 @@
                     </div>
                 </div>
             </div>
+            <!-- FINE MODAL FILTERS -->
         </div>
-
-
-
     </div>
 </div>
 
-<script src="javascripts/mappaBrowser.js"> </script>
+    <div>Cos’è Lorem Ipsum?
+        Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione. È sopravvissuto non solo a più di cinque secoli, ma anche al passaggio alla videoimpaginazione, pervenendoci sostanzialmente inalterato. Fu reso popolare, negli anni ’60, con la diffusione dei fogli di caratteri trasferibili “Letraset”, che contenevano passaggi del Lorem Ipsum, e più recentemente da software di impaginazione come Aldus PageMaker, che includeva versioni del Lorem Ipsum.
+
+        Perchè lo utilizziamo?
+        È universalmente riconosciuto che un lettore che osserva il layout di una pagina viene distratto dal contenuto testuale se questo è leggibile. Lo scopo dell’utilizzo del Lorem Ipsum è che offre una normale distribuzione delle lettere (al contrario di quanto avviene se si utilizzano brevi frasi ripetute, ad esempio “testo qui”), apparendo come un normale blocco di testo leggibile. Molti software di impaginazione e di web design utilizzano Lorem Ipsum come testo modello. Molte versioni del testo sono state prodotte negli anni, a volte casualmente, a volte di proposito (ad esempio inserendo passaggi ironici).
+
+    </div>
+    <!--   https://app.teral.io/project/setup
+    <div id="google_translate_element"></div><script>
+
+        function googleTranslateElementInit() {
+
+            new google.translate.TranslateElement({
+
+                pageLanguage: 'en'
+
+            }, 'google_translate_element');
+
+        }
+
+    </script><script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    -->
+    <!--Footer-->
+    <footer class="page-footer text-center text-md-left">
+
+        <!--Copyright-->
+        <div class="footer-copyright text-center">
+            <div class="container-fluid py-3">
+                © 2018 Copyright: <a href="https://mdbootstrap.com"> MDBootstrap.com </a>
+            </div>
+        </div>
+        <!--/.Copyright-->
+
+    </footer>
+    <!--/.Footer-->
+
+    <!-- SCRIPTS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" ></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" ></script>
+
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+            integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+            crossorigin=""></script>
+
+
+    <!-- SCRIPT FOR GEOCODING & GEOSEARCH -->
+    <!-- Load Esri Leaflet from CDN -->
+    <script src="https://unpkg.com/esri-leaflet@2.3.0/dist/esri-leaflet.js"
+            integrity="sha512-1tScwpjXwwnm6tTva0l0/ZgM3rYNbdyMj5q6RSQMbNX6EUMhYDE3pMRGZaT41zHEvLoWEK7qFEJmZDOoDMU7/Q=="
+            crossorigin=""></script>
+
+    <!-- Load Esri Leaflet Geocoder from CDN -->
+    <script src="https://unpkg.com/esri-leaflet-geocoder@2.2.14/dist/esri-leaflet-geocoder.js"
+            integrity="sha512-uK5jVwR81KVTGe8KpJa1QIN4n60TsSV8+DPbL5wWlYQvb0/nYNgSOg9dZG6ViQhwx/gaMszuWllTemL+K+IXjg=="
+            crossorigin=""></script>
+
+
+    <!-- script indications on maps    https://github.com/skedgo/tripkit-leaflet -->
+    <!-- <link rel="stylesheet" href="TripgoRouting.css" />
+    <script src="javascripts/TripgoRouting.js"></script>
+    <script src="javascripts/Polyline.encoded.js"></script>
+    <script src="javascripts/jquery-3.2.1.js"></script>
+    -->
+
+    <!-- script for indications on maps -->
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <script src="javascripts/Geocoder.js"></script>
+    <script src="javascripts/config.js"></script>
+    <script src="javascripts/mappaBrowser.js"></script>
 
 <script>
-    </script>
+</script>
+
+
 </body>
 </html>

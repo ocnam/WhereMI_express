@@ -1,7 +1,19 @@
+.navbar {
+    background-color: #34456a;
+}
+
+.scrolling-navbar {
+    transition: background .5s ease-in-out, padding .5s ease-in-out;
+}
+
+footer.page-footer {
+    background-color: #34456a;
+}
+
 #map { height: 80vh;}
 /*.navbar-inverse{ padding-bottom: 0px;}*/
-.row{ margin-top: -20px;margin-left:  15px;}
-#controlPlay{
+.row{ margin-top: 70px;margin-left:  15px;}
+#controlAndFilters{
     padding-top: 10px;
     font-size:30px;
 
