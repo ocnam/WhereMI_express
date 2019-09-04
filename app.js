@@ -5,8 +5,8 @@ var cloudinary = require('cloudinary').v2;  //integrazione clip audio (cloudinar
 
 //Setup per metodo POST
 var bodyParser = require('body-parser');
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.use(bodyParser.json({limit: '50mb', extended: true})); // support json encoded bodies
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true})); // support encoded bodies
 
 // DOVE CERCARE I FILE STATICI
 app.use(express.static( __dirname + "/public" ));
