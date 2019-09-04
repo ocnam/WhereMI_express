@@ -109,7 +109,10 @@
         <audio class="hidden" id="player" controls></audio><br/>
         <h3 id="labelAzioni" class="font-weight-bold hidden"></h3><br/><br/>
         <button class="btn btn-dark hidden" id="salva">Salva</button>
-        <button class="btn btn-dark hidden" id="update" disabled>Upload YouTube</button><br/><br/>
+        <button id="buttonLogin" class="btn btn-dark hidden">Login</button>
+        <button class="btn btn-dark hidden" id="update">Upload YouTube </button>
+
+
       </div>
       <div>
         <h1 class="hidden" id="labelTab"></h1><br/><br/>
@@ -258,6 +261,9 @@
 
   var authorizeButton = document.getElementById('authorize_button');
   var signoutButton = document.getElementById('signout_button');
+  var utenteButton = document.getElementById('buttonLogin');
+  var update = document.getElementById('update');
+
 
   /**
    *  On load, called to load the auth2 library and API client library.
@@ -285,6 +291,7 @@
       updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
       authorizeButton.onclick = handleAuthClick;
       signoutButton.onclick = handleSignoutClick;
+      utenteButton.onclick =handleUtenteLogClick;
     },  function(err) { console.error("Error loading GAPI client for API", err); });
   }
 
@@ -296,11 +303,28 @@
     if (isSignedIn) {
       authorizeButton.style.display = 'none';
       signoutButton.style.display = 'block';
+      utenteButton.style.display='none';
+      //document.getElementById("update").display = 'initial';
+      //document.getElementById("update").disabled = false;
+      update.disabled=false;
+    }
 
-    } else {
+
+    else {
       authorizeButton.style.display = 'block';
       signoutButton.style.display = 'none';
+      utenteButton.style.display='none';
+      update.disabled=true;
+
+
+
     }
+  }
+
+
+
+  function handleUtenteLogClick(event){
+    gapi.auth2.getAuthInstance().signIn();
   }
 
   /**

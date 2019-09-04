@@ -14,6 +14,8 @@ var dettaglioPanel = document.getElementById('dettagliClipPanel');
 var labelTabSaveClip = document.getElementById('labelTab');
 var geoText = document.getElementById('txtGeoloc');
 
+var btnLogin = document.getElementById('buttonLogin');
+
 var clipRegistrate= [];   //array di clip salvate
 
 //geolocalizzazione + find address
@@ -86,10 +88,16 @@ var manageAudioStream = function(stream) {
   pause.disabled = false;
   salva.disabled = false;
   update.disabled = true;
+
+  btnLogin.disable=true;
+
   player.style ="display:none";
   labelAzioni.style = "display:none";
   salva.style="display:none";
   update.style="display:none";
+
+  btnLogin.style="display:none";
+
 
   //countdown
   var seconds = 0;
@@ -139,6 +147,9 @@ var manageAudioStream = function(stream) {
     labelAzioni.style = "display:initial";
     salva.style="display:initial";
     update.style="display:initial";
+
+    btnLogin.style="display:initial";
+
     labelAzioni.innerHTML = "<u>Azioni</u> <span class='badge badge-secondary'>Clip:"+seconds+"s</span>";
     messageLabel.innerHTML = "<span class='badge badge-danger'>Registrazione terminata</span>";
   }
@@ -168,7 +179,9 @@ var manageAudioStream = function(stream) {
     labelTabSaveClip.style = "display:initial";
     labelTabSaveClip.innerHTML = "Clip salvate<span class='badge badge-secondary'>"+clipRegistrate.length+"</span>";
     dettaglioPanel.style = "display:initial";
-    update.disabled= false;
+
+    //update.disabled= false;
+
     salva.disabled = true;
   }
 }
