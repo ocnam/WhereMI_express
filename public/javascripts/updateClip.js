@@ -47,7 +47,7 @@ function uploadClip(){
     }else{
       metadatiClip = openLocationCode +":"+scopo+":"+lingua+":*";     //metadati base 
     }
-
+    console.log(metadatiClip);
     if(titoloClip!=""){  
       sendClipServer();   //richiamo funzione chiamata server
 
