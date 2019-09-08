@@ -68,6 +68,8 @@ var control = L.Routing.control(L.extend(window.lrmConfig, {
     }
 })).addTo(map);
 
+control.window.hidden;
+
 L.Routing.errorControl(control).addTo(map);
 
 //Draggable marker
@@ -127,3 +129,5 @@ map.on('click', function(e) {
     addPopup(newMarker);
 
 });
+
+

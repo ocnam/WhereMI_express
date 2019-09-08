@@ -1,7 +1,14 @@
 /* Navigation*/
 .navbar {
-    background-color: transparent;
+    background-color: rgba(52,69,106,0.75);
+
+    /*background-color: #34456a;*/
 }
+
+.navbar a{
+    text-align: center;
+}
+
 .scrolling-navbar {
     transition: background .5s ease-in-out, padding .5s ease-in-out;
 }
@@ -9,43 +16,83 @@
 footer.page-footer {
     background-color: #34456a;
 }
+
 @media only screen and (max-width: 768px) {
     .navbar {
         background-color: #34456a;
     }
+
+   /* #videoPlay{
+        display: none;
+    }*/
+    .carousel .carousel-item video {
+        /*min-width: 100%;
+        min-height: 100%;*/
+        /* width: auto;
+         height: auto;*/
+        width: auto   !important;
+        height: auto   !important;
+        margin-bottom: -200px ;
+
+        /*margin-top: 150px;*/
+        /*padding-bottom: 420px;*/
+    }
+   /* #image {
+        background: url('images/img2.jpg') center center / cover no-repeat;
+    }*/
+
+    #navbarDropdownMenuLink{
+        display: none;
+    }
+
 }
 
-/* Necessary for full page carousel*/
+/* Necessary for full page carousel
 html,
 body,
 .view {
     height: 100%;
-}
+}*/
 
 /* Carousel*/
 .carousel,
-.carousel-item,
-.carousel-item.active {
+.carousel-item
+{
     height: 100%;
 }
+
+
+#carouselSlide {
+    width: 100%;
+    height: 100%;
+    /*position: relative;*/
+}
+
 .carousel-inner {
-    height: 100%;
-}
+     height: 100%;
+ }
+
 .carousel .carousel-item video {
-    min-width: 100%;
-    min-height: 100%;
-    /* width: auto;
-     height: auto;*/
-    width: auto   !important;
-    height: auto   !important;
-    padding-bottom: 360px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    /*margin-top: 150px;*/
-    /*padding-bottom: 420px;*/
+    width: 100%;
+
+}
+
+#videoView {
+    width: 100%;
+    height: auto;
+
 }
 
 .team-section{
     width: 99%;
 }
+
+/* translator */
+a.gflag {vertical-align:middle;font-size:32px;padding:-50px 0;background-repeat:no-repeat;background-image:url(//gtranslate.net/flags/32.png);}
+a.gflag img {border:0;}
+a.gflag:hover {background-image:url(//gtranslate.net/flags/32a.png);}
+#goog-gt-tt {display:none !important;}
+.goog-te-banner-frame {display:none !important;}
+.goog-te-menu-value:hover {text-decoration:none !important;}
+body {top:0 !important;}
+#google_translate_element2 {display:none!important;}
