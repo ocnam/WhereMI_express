@@ -112,53 +112,55 @@ function handleSignoutClick(event) {
   }
 */
 
-window.uploadVideo = function uploadVideoYoutube(urlClip,titolo,metadata) {
-    videoClip = createFileFromUrl(urlClip);     //ottengo i dati grezzi del video
+window.uploadToYoutube = function (urlClip,titolo,metadata) {
+    video = createFileFromUrl(urlClip);     //ottengo flusso video
 
     gapi.client.load('youtube', 'v3',function(){
         gapi.client.youtube.videos.insert({
             part: "snippet,status,id", 
             resource: {
                 snippet: { 
-                    categoryId: "22",
+                    categoryId: 27,
                     title: titolo,
-                    description: metadata,   
+                    description: metadata,
+                    tags: [metadata]  
                 },
                 status: { 
                     privacyStatus: 'public', 
                     embeddable: true  
                 }, 
-                media: { body: videoClip}
+                media: { body: video }
             }
         })
             .then(function(response) {
-                console.log("ok");
+                console.log(response);
+                return true;
              },function(err) {
                 console.log("Errore Youtube API", err.result.error.errors);
+                return false
              });
-
-   });
-
-    /* OLD VERSION
-    var toSend = new FormData();
-    var params = new Blob([ JSON.stringify(youtubeParameters) ], { "type" : "application/json" });
-    toSend.append("video", params);
-    toSend.append("mediaBody", clipVideo);
-
-    gapi.client.request({
-        'path': '/youtube/v3/videos'+ "?part=snippet,status",
-        'method': 'POST',
-        'body': toSend
-      }).then(function(response) {
-        console.log(response.result);
-       // writeResponse(resp.result);
-      });*/
+   }); 
 }
 
-async function createFileFromUrl(url){
+window.createFileFromUrl =  async function(url){
     let response = await fetch(url);
     let data = await response.blob();
-    let file = new File([data], "test.mp4", {type: 'video/mp4'});
-
+    let file = new File([data], "clipVideo.mp4", {type: 'video/mp4'});
     return file;
-  }
+}
+
+/* OLD VERSION
+var toSend = new FormData();
+var params = new Blob([ JSON.stringify(youtubeParameters) ], { "type" : "application/json" });
+toSend.append("video", params);
+toSend.append("mediaBody", clipVideo);
+
+gapi.client.request({
+    'path': '/youtube/v3/videos'+ "?part=snippet,status",
+    'method': 'POST',
+    'body': toSend
+    }).then(function(response) {
+    console.log(response.result);
+    // writeResponse(resp.result);
+    });
+*/

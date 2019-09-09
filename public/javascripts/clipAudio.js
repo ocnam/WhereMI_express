@@ -63,13 +63,6 @@ rec.onclick = function(){
 
 var myMimeType = 'video/mp4';
 
-/*
-audio/wav
-audio/webm
-audio/ogg
-video/webm;codecs=h264
-*/
-
 //Gestisci stream audio
 var manageAudioStream = function(stream) {
  
@@ -97,7 +90,6 @@ var manageAudioStream = function(stream) {
   update.style="display:none";
 
   btnLogin.style="display:none";
-
 
   //countdown
   var seconds = 0;
@@ -179,10 +171,14 @@ var manageAudioStream = function(stream) {
     labelTabSaveClip.style = "display:initial";
     labelTabSaveClip.innerHTML = "Clip salvate<span class='badge badge-secondary'>"+clipRegistrate.length+"</span>";
     dettaglioPanel.style = "display:initial";
-
-    //update.disabled= false;
-
+    update.disabled= false;
     salva.disabled = true;
+
+    if(seconds > 15){
+      document.getElementById('checkHow').checked = true;
+    }if(seconds > 30){
+      document.getElementById('checkWhy').checked = true;
+    }
   }
 }
 //riproduco nel player audio

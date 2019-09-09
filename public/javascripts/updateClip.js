@@ -34,7 +34,12 @@ function uploadClip(){
   var pubblico = selectAudience.options[selectAudience.selectedIndex].value;
   var dettaglio = selectDetail.options[selectDetail.selectedIndex].value;
 
-  //Converto posizione nel codice OLC
+  if(window.lat == undefined || window.long == undefined ){
+    alert("Geolocalizzazione non riuscita! Inserisci una località manualmente");
+    return;
+  }
+
+   //Converto posizione nel codice OLC
   var urlCodereverse = "https://plus.codes/api?address=" + window.lat +","+window.long; //URL API di OLC(Plus code)
   $.get(urlCodereverse, function( data ) {
     var openLocationCode = data.plus_code.global_code;
@@ -45,53 +50,49 @@ function uploadClip(){
     }else{
       metadatiClip = openLocationCode +":"+scopo+":"+lingua+":*";     //metadati base 
     }
-    console.log(metadatiClip);
+
+    console.log("Metadati:",metadatiClip);
+
     if(titoloClip!=""){  
       sendClipServer();   //richiamo funzione chiamata server
 
       //Cambiamenti UI
       titoloForm.innerText = "Uploading...";
       formMeta.classList.add("bg-warning");
-    }else{
-      alert("Inserisci il titolo!");  //titolo obbligatorio
-    }
-    
+    }else{ alert("Inserisci un titolo!") } //titolo obbligatorio
   })
-      .fail(function() {
-        alert( "error OLC Conversion" );
-      });
+    .fail(function() {alert( "Error OLC Conversion" )});
 }
 
 function sendClipServer(){
-  //Converto i dati grezzi flusso audio
+  //Converto i dati grezzi del flusso audio
   var reader = new window.FileReader();
   reader.readAsDataURL(lastClip.raw);
-  reader.onloadend = function () {
-    var clipAudio = reader.result; 
+  reader.onloadend = function () { 
+    var clipAudio = reader.result;
 
-    //chiamata API al server locale (node.js)
+    //API server locale --> Clip audio to video 
     $.post( "/api/audioclip", { 
       clip: clipAudio, 
       durata:lastClip.durata, 
       orario:lastClip.orario,
       data: lastClip.data,
       titolo: titoloClip,
-      metadati: metadatiClip,
+      metadati: metadatiClip
     })
-      .done(function( response ) {
-        if(response.ack = "200 OK"){
-          alert("Caricamento con successo! \nSarà online in circa 5 minuti");
-          titoloForm.innerText = "Dettagli clip";
-          formMeta.classList.remove("bg-warning");
-
-          //Utilizza API youtube per caricamento video
-          window.uploadVideo(response.url,response.titolo,metadatiClip);
-        }else{
-          alert("Errore interno al server, ritenta!")
-        }
-      })
-      .fail(function() {
-        alert( "Errore richiesta!" );
-      });
+      .fail(function(){ alert("Errore richiesta!") })
+      .done(function(responseLocal) {
+        if(responseLocal.ack = "200 OK"){
+          console.log("OK - Conversione in clip video");
+          var success = window.uploadToYoutube(responseLocal.url,responseLocal.titolo,metadatiClip);  //carica filmato su youtube
+          
+          //Cambiamenti UI
+          if(success){
+            titoloForm.innerText = "Dettagli clip";
+            formMeta.classList.remove("bg-warning");
+            alert("Caricamento con successo! \nSarà online in circa 5 minuti");
+          }else{alert("Errore caricamento online")}
+        }else{alert("500 - Errore interno al server, ritenta!")}
+      }); 
   }
 }
