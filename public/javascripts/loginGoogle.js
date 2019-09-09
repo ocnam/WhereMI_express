@@ -1,12 +1,16 @@
-const API_KEY = "AIzaSyARgIB-2zTsZcy7IoYDUWlXu0a7yQDOj9s";
-const CLIENT_ID = "840091091157-fitfqdv3e84ivdh1fj0on6s1ganlu1eo.apps.googleusercontent.com";
+//const API_KEY = "AIzaSyARgIB-2zTsZcy7IoYDUWlXu0a7yQDOj9s";
+//const CLIENT_ID = "840091091157-fitfqdv3e84ivdh1fj0on6s1ganlu1eo.apps.googleusercontent.com";
+
+//CODICI funzionanti per upload YT
+const API_KEY = "AIzaSyAS5da-EZaeNOf8V1jRJKSfEhElyLiHeCY";
+const CLIENT_ID = "954243260601-tsg6ehaeg4pma83lekjbkb3ut1ukp0cr.apps.googleusercontent.com";
 
 // Array of API discovery doc URLs for APIs used by the quickstart
 var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/people/v1/rest"];
 
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
-var SCOPES = "https://www.googleapis.com/auth/youtube.upload";
+var SCOPES = "https://www.googleapis.com/auth/youtube";
 
 var authorizeButton = document.getElementById('authorize_button');
 var signoutButton = document.getElementById('signout_button');
@@ -102,3 +106,54 @@ function handleSignoutClick(event) {
     // console.log('Email: ' + profile.getEmail());
   }
 */
+
+window.uploadVideo = function uploadVideoYoutube(urlClip,titolo,metadata) {
+    videoClip = createFileFromUrl(urlClip);     //ottengo i dati grezzi del video
+
+    gapi.client.load('youtube', 'v3',function(){
+        gapi.client.youtube.videos.insert({
+            part: "snippet,status,id", 
+            resource: {
+                snippet: { 
+                    categoryId: "22",
+                    title: titolo,
+                    description: metadata,   
+                },
+                status: { 
+                    privacyStatus: 'public', 
+                    embeddable: true  
+                }, 
+                media: { body: videoClip}
+            }
+        })
+            .then(function(response) {
+                console.log("ok");
+             },function(err) {
+                console.log("Errore Youtube API", err.result.error.errors);
+             });
+
+   });
+
+    /* OLD VERSION
+    var toSend = new FormData();
+    var params = new Blob([ JSON.stringify(youtubeParameters) ], { "type" : "application/json" });
+    toSend.append("video", params);
+    toSend.append("mediaBody", clipVideo);
+
+    gapi.client.request({
+        'path': '/youtube/v3/videos'+ "?part=snippet,status",
+        'method': 'POST',
+        'body': toSend
+      }).then(function(response) {
+        console.log(response.result);
+       // writeResponse(resp.result);
+      });*/
+}
+
+async function createFileFromUrl(url){
+    let response = await fetch(url);
+    let data = await response.blob();
+    let file = new File([data], "test.mp4", {type: 'video/mp4'});
+
+    return file;
+  }

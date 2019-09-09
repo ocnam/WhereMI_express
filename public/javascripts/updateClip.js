@@ -20,10 +20,8 @@ update_btn.onclick = function(){
 function getClip(){
   if(player.readyState == 0){   //nessuna clip precedente, seleziona l'ultima registrazione
     lastClip = clips[clips.length - 1];
-    console.log("Seleziono - Ultima clip");
   }else{
     lastClip = window.correntAudioReplay; //Clip precedente (src player)
-    console.log("Seleziono - Clip precedente");
   }
 }
 
@@ -80,11 +78,14 @@ function sendClipServer(){
       titolo: titoloClip,
       metadati: metadatiClip,
     })
-      .done(function( ackServer ) {
-        if(ackServer = "200 OK"){
+      .done(function( response ) {
+        if(response.ack = "200 OK"){
           alert("Caricamento con successo! \nSarà online in circa 5 minuti");
           titoloForm.innerText = "Dettagli clip";
           formMeta.classList.remove("bg-warning");
+
+          //Utilizza API youtube per caricamento video
+          window.uploadVideo(response.url,response.titolo,metadatiClip);
         }else{
           alert("Errore interno al server, ritenta!")
         }

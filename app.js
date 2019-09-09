@@ -62,10 +62,14 @@ app.post('/api/audioclip', function(req, res) {
   },
   function(error, result) {
     console.log(result, error);
-    if(error){
-      res.send ("error upload to cloud server");
+    if(!error){
+      res.send ({
+        ack:"200 OK",
+        url: result.url,
+        titolo: result.public_id
+      }); 
     }else{
-      res.send ("200 OK");  //restituisce client esito positivo
+      res.send ("error upload to cloud server");
     }
   });
 });
