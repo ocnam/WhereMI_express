@@ -15,7 +15,7 @@ const CLIENT_ID = [
 "954243260601-tsg6ehaeg4pma83lekjbkb3ut1ukp0cr.apps.googleusercontent.com",
 "77613934136-ptfkras4muhhosos168148fkne2eertm.apps.googleusercontent.com",
 "20350970616-95jl37dj5jukilg9c4egatiq3rr6h1je.apps.googleusercontent.com"];
-var index = 2;
+var index = 0;
 
 // Array of API discovery doc URLs for APIs used by the quickstart
 var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/people/v1/rest"];
@@ -46,7 +46,7 @@ function handleClientLoad() {
  */
 function initClient() {
     gapi.client.init({
-        apiKey: API_KEY[index],
+        //apiKey: API_KEY[index],
         clientId: CLIENT_ID[index],
         discoveryDocs: DISCOVERY_DOCS,
         scope: SCOPES
@@ -125,13 +125,12 @@ window.uploadToYoutube =  async function(urlClip,titolo,metadati){
     var rawData = await response.blob();
     rawData.type = 'video/mp4';
 
+    console.log("Preparo invio dati a Youtube (API)",videoclip);
     uploadRawFile(rawData,titolo,metadati);
 }
 
 function uploadRawFile (videoclip,titolo,metadatiClip) {
-  console.log("Preparo invio dati a Youtube (API)",videoclip);
   var token = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token;
-
   var params = {
     snippet: {
         categoryId: 27,
@@ -142,14 +141,16 @@ function uploadRawFile (videoclip,titolo,metadatiClip) {
     status: {
         privacyStatus: 'public',
         embeddable: true
-    }};
+    }
+  };
 
   //Building request
   var request = new FormData();
-  var metadatiYoutube = new Blob([JSON.stringify(params)], { type: 'application/json' });
+  var metadatiYoutube = new Blob([JSON.stringify(params)], {type: 'application/json'});
   request.append('video', metadatiYoutube);
   request.append('mediaBody', videoclip);
 
+  //Upload via API youtube (POST)
   $.ajax({
     method: 'POST',
     url: 'https://www.googleapis.com/upload/youtube/v3/videos?access_token=' + encodeURIComponent(token) + '&part=snippet,status',
@@ -163,41 +164,8 @@ function uploadRawFile (videoclip,titolo,metadatiClip) {
       return true;
     })
     .fail(function(response){
-      var errors = err.result.error.errors;
-       console.log("Errore API per Upload YT!",errors);
-
-       if(errors.domain == "youtube.quota"){
-         console.log("Quota per utilizzo API raggiunta, provare con altri!");
-       }
-       return false;
+      var errors = response.responseJSON.error.errors[0];
+      console.log("Errore API per Upload YT!",errors);
+      return false;
     });
 }
-
-
-
-/* OLD version of API upload
-  gapi.client.load('youtube', 'v3',function(){
-    gapi.client.youtube.videos.insert({
-        part: "snippet,status",
-        body: videoclip,
-        resource: {
-            snippet: {
-                categoryId: 27,
-                title: titolo,
-                description: metadatiClip,
-                tags: [metadatiClip]
-            },
-            status: {
-                privacyStatus: 'public',
-                embeddable: true
-            }}
-   }).then(function(response) {
-            console.log(response);
-            console.log("OK - Upload su YouTube");
-            return true;
-          },function(err) {
-            console.log("Errore Youtube API", err.result.error.errors);
-            return false
-         });
-  });
-  */
