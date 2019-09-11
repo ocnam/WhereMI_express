@@ -48,12 +48,12 @@ function uploadClip(){
     if(categoria != "none"){
       metadatiClip = openLocationCode +":"+scopo+":"+lingua+":"+categoria +":A"+ pubblico +":P"+dettaglio;
     }else{
-      metadatiClip = openLocationCode +":"+scopo+":"+lingua+":*";     //metadati base 
+      metadatiClip = openLocationCode +":"+scopo+":"+lingua+":*";     //metadati base
     }
 
     console.log("Metadati:",metadatiClip);
 
-    if(titoloClip!=""){  
+    if(titoloClip!=""){
       sendClipServer();   //richiamo funzione chiamata server
 
       //Cambiamenti UI
@@ -68,13 +68,13 @@ function sendClipServer(){
   //Converto i dati grezzi del flusso audio
   var reader = new window.FileReader();
   reader.readAsDataURL(lastClip.raw);
-  reader.onloadend = function () { 
+  reader.onloadend = function () {
     var clipAudio = reader.result;
 
-    //API server locale --> Clip audio to video 
-    $.post( "/api/audioclip", { 
-      clip: clipAudio, 
-      durata:lastClip.durata, 
+    //API server locale --> Clip audio to video
+    $.post( "/api/audioclip", {
+      clip: clipAudio,
+      durata:lastClip.durata,
       orario:lastClip.orario,
       data: lastClip.data,
       titolo: titoloClip,
@@ -85,14 +85,14 @@ function sendClipServer(){
         if(responseLocal.ack = "200 OK"){
           console.log("OK - Conversione in clip video");
           var success = window.uploadToYoutube(responseLocal.url,responseLocal.titolo,metadatiClip);  //carica filmato su youtube
-          
+
           //Cambiamenti UI
           if(success){
             titoloForm.innerText = "Dettagli clip";
             formMeta.classList.remove("bg-warning");
-            alert("Caricamento con successo! \nSarà online in circa 5 minuti");
+            alert("Caricamento con successo! \nSarà online fra pochi minuti");
           }else{alert("Errore caricamento online")}
         }else{alert("500 - Errore interno al server, ritenta!")}
-      }); 
+      });
   }
 }

@@ -1,21 +1,24 @@
 //const API_KEY = "AIzaSyARgIB-2zTsZcy7IoYDUWlXu0a7yQDOj9s";
 //const CLIENT_ID = "840091091157-fitfqdv3e84ivdh1fj0on6s1ganlu1eo.apps.googleusercontent.com";
 
-//CODICI funzionanti per upload YT
-const API_KEY = "AIzaSyAS5da-EZaeNOf8V1jRJKSfEhElyLiHeCY";
-const CLIENT_ID = "954243260601-tsg6ehaeg4pma83lekjbkb3ut1ukp0cr.apps.googleusercontent.com";
-
 /* work online
 const API_KEY = "AIzaSyBcTEce_U3Ho-Ua4SiUmOvo0tPDzWkuBd4";
 const CLIENT_ID = "899661843536-gl9bsjpnqbjkcddj1e8167o6e6anpmrd.apps.googleusercontent.com";
  */
+
+//CODICI funzionanti per upload YT + backup per esaurimento quote (error 403 - youtube.quota)
+const API_KEY = ["AIzaSyAVsSvaxjIPOft7YJeT9fS1j9ZRGCopiDU","AIzaSyAS5da-EZaeNOf8V1jRJKSfEhElyLiHeCY","AIzaSyABpMtnPLOY12WGC9SmIHyhBevKFSjKymk"];
+const CLIENT_ID = ["77613934136-ptfkras4muhhosos168148fkne2eertm.apps.googleusercontent.com",
+"899661843536-gl9bsjpnqbjkcddj1e8167o6e6anpmrd.apps.googleusercontent.com",
+"20350970616-95jl37dj5jukilg9c4egatiq3rr6h1je.apps.googleusercontent.com"];
+var index = 2;
 
 // Array of API discovery doc URLs for APIs used by the quickstart
 var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/people/v1/rest"];
 
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
-var SCOPES = "https://www.googleapis.com/auth/youtube";
+var SCOPES = "https://www.googleapis.com/auth/youtube"; // https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtube.force-ssl
 
 var authorizeButton = document.getElementById('authorize_button');
 var signoutButton = document.getElementById('signout_button');
@@ -39,8 +42,8 @@ function handleClientLoad() {
  */
 function initClient() {
     gapi.client.init({
-        apiKey: API_KEY,
-        clientId: CLIENT_ID,
+        apiKey: API_KEY[index],
+        clientId: CLIENT_ID[index],
         discoveryDocs: DISCOVERY_DOCS,
         scope: SCOPES
     }).then(function () {
@@ -112,55 +115,85 @@ function handleSignoutClick(event) {
   }
 */
 
-window.uploadToYoutube = function (urlClip,titolo,metadata) {
-    video = createFileFromUrl(urlClip);     //ottengo flusso video
+window.uploadToYoutube =  async function(urlClip,titolo,metadati){
+    //Ottieni clip video da URL (hosted cloudinary.com)
+    let response = await fetch(urlClip);
+    var rawData = await response.blob();
+    rawData.type = 'video/mp4';
 
-    gapi.client.load('youtube', 'v3',function(){
-        gapi.client.youtube.videos.insert({
-            part: "snippet,status,id", 
-            resource: {
-                snippet: { 
-                    categoryId: 27,
-                    title: titolo,
-                    description: metadata,
-                    tags: [metadata]  
-                },
-                status: { 
-                    privacyStatus: 'public', 
-                    embeddable: true  
-                }, 
-                media: { body: video }
-            }
-        })
-            .then(function(response) {
-                console.log(response);
-                return true;
-             },function(err) {
-                console.log("Errore Youtube API", err.result.error.errors);
-                return false
-             });
-   }); 
+    uploadRawFile(rawData,titolo,metadati);
 }
 
-window.createFileFromUrl =  async function(url){
-    let response = await fetch(url);
-    let data = await response.blob();
-    let file = new File([data], "clipVideo.mp4", {type: 'video/mp4'});
-    return file;
-}
+function uploadRawFile (videoclip,titolo,metadatiClip) {
+  console.log("Preparo invio dati a Youtube (API)",videoclip);
+  var token = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token;
 
-/* OLD VERSION
-var toSend = new FormData();
-var params = new Blob([ JSON.stringify(youtubeParameters) ], { "type" : "application/json" });
-toSend.append("video", params);
-toSend.append("mediaBody", clipVideo);
+  var params = {
+    snippet: {
+        categoryId: 27,
+        title: titolo,
+        description: metadatiClip,
+        tags: [metadatiClip]
+    },
+    status: {
+        privacyStatus: 'public',
+        embeddable: true
+    }};
 
-gapi.client.request({
-    'path': '/youtube/v3/videos'+ "?part=snippet,status",
-    'method': 'POST',
-    'body': toSend
-    }).then(function(response) {
-    console.log(response.result);
-    // writeResponse(resp.result);
+  //Building request
+  var request = new FormData();
+  var metadatiYoutube = new Blob([JSON.stringify(params)], { type: 'application/json' });
+  request.append('video', metadatiYoutube);
+  request.append('mediaBody', videoclip);
+
+  $.ajax({
+    method: 'POST',
+    url: 'https://www.googleapis.com/upload/youtube/v3/videos?access_token=' + encodeURIComponent(token) + '&part=snippet,status',
+    data: request,
+    cache: false,
+    contentType: false,
+    processData: false,
+  })
+    .done(function(response) {
+      console.log("Caricamento completato!",response)
+      return true;
+    })
+    .fail(function(response){
+      var errors = err.result.error.errors;
+       console.log("Errore API per Upload YT!",errors);
+
+       if(errors.domain == "youtube.quota"){
+         console.log("Quota per utilizzo API raggiunta, provare con altri!");
+       }
+       return false;
     });
-*/
+}
+
+
+
+/* OLD version of API upload
+  gapi.client.load('youtube', 'v3',function(){
+    gapi.client.youtube.videos.insert({
+        part: "snippet,status",
+        body: videoclip,
+        resource: {
+            snippet: {
+                categoryId: 27,
+                title: titolo,
+                description: metadatiClip,
+                tags: [metadatiClip]
+            },
+            status: {
+                privacyStatus: 'public',
+                embeddable: true
+            }}
+   }).then(function(response) {
+            console.log(response);
+            console.log("OK - Upload su YouTube");
+            return true;
+          },function(err) {
+            console.log("Errore Youtube API", err.result.error.errors);
+            return false
+         });
+  });
+  */
