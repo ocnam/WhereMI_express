@@ -7,9 +7,13 @@ const CLIENT_ID = "899661843536-gl9bsjpnqbjkcddj1e8167o6e6anpmrd.apps.googleuser
  */
 
 //CODICI funzionanti per upload YT + backup per esaurimento quote (error 403 - youtube.quota)
-const API_KEY = ["AIzaSyAVsSvaxjIPOft7YJeT9fS1j9ZRGCopiDU","AIzaSyAS5da-EZaeNOf8V1jRJKSfEhElyLiHeCY","AIzaSyABpMtnPLOY12WGC9SmIHyhBevKFSjKymk"];
-const CLIENT_ID = ["77613934136-ptfkras4muhhosos168148fkne2eertm.apps.googleusercontent.com",
-"899661843536-gl9bsjpnqbjkcddj1e8167o6e6anpmrd.apps.googleusercontent.com",
+const API_KEY = [
+  "AIzaSyAS5da-EZaeNOf8V1jRJKSfEhElyLiHeCY",
+  "AIzaSyAVsSvaxjIPOft7YJeT9fS1j9ZRGCopiDU",
+  "AIzaSyABpMtnPLOY12WGC9SmIHyhBevKFSjKymk"];
+const CLIENT_ID = [
+"954243260601-tsg6ehaeg4pma83lekjbkb3ut1ukp0cr.apps.googleusercontent.com",
+"77613934136-ptfkras4muhhosos168148fkne2eertm.apps.googleusercontent.com",
 "20350970616-95jl37dj5jukilg9c4egatiq3rr6h1je.apps.googleusercontent.com"];
 var index = 2;
 
