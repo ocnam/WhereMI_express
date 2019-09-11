@@ -125,7 +125,7 @@ window.uploadToYoutube =  async function(urlClip,titolo,metadati){
     var rawData = await response.blob();
     rawData.type = 'video/mp4';
 
-    console.log("Preparo invio dati a Youtube (API)",videoclip);
+    console.log("Preparo invio dati a Youtube (API)",rawData);
     uploadRawFile(rawData,titolo,metadati);
 }
 
@@ -137,7 +137,7 @@ function uploadRawFile (videoclip,titolo,metadatiClip) {
         title: titolo,
         description: metadatiClip,
         tags: [metadatiClip]
-    },
+},
     status: {
         privacyStatus: 'public',
         embeddable: true

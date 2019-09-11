@@ -9,7 +9,7 @@ var player = document.getElementById('player');
 var titoloForm = document.getElementById('titoloMetadati');
 var formMeta = document.getElementById('dettagliClipPanel')
 
-var lastClip,metadatiClip,titoloClip;
+var lastClip,metadatiClip,titoloClip,openLocationCode;
 var clips = window.getSaveClip();    //Ottieni array clip salvate
 
 update_btn.onclick = function(){
@@ -42,7 +42,7 @@ function uploadClip(){
    //Converto posizione nel codice OLC
   var urlCodereverse = "https://plus.codes/api?address=" + window.lat +","+window.long; //URL API di OLC(Plus code)
   $.get(urlCodereverse, function( data ) {
-    var openLocationCode = data.plus_code.global_code;
+    openLocationCode = data.plus_code.global_code;
 
     //Costruisco stringa metadati
     if(categoria != "none"){
@@ -78,13 +78,16 @@ function sendClipServer(){
       orario:lastClip.orario,
       data: lastClip.data,
       titolo: titoloClip,
-      metadati: metadatiClip
+      metadati: metadatiClip,
+      posizione: openLocationCode
     })
       .fail(function(){ alert("Errore richiesta!") })
       .done(function(responseLocal) {
         if(responseLocal.ack = "200 OK"){
           console.log("OK - Conversione in clip video");
-          var success = window.uploadToYoutube(responseLocal.url,responseLocal.titolo,metadatiClip);  //carica filmato su youtube
+
+          //carica filmato su youtube
+          var success = window.uploadToYoutube(responseLocal.url,responseLocal.titolo,metadatiClip);
 
           //Cambiamenti UI
           if(success){

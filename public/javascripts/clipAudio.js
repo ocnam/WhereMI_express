@@ -65,7 +65,7 @@ var myMimeType = 'video/mp4';
 
 //Gestisci stream audio
 var manageAudioStream = function(stream) {
- 
+
   //Setup recorder
   var mediaRecorder = new MediaRecorder(stream);
   mediaRecorder.mimeType = myMimeType;
@@ -213,7 +213,7 @@ function getLocation() {
       window.lat = position.coords.latitude;
       window.long = position.coords.longitude;
 
-      reversePosition(window.lat,window.long);
+      reversePosition(window.lat,window.long); //Ottieni nome via
     });
   } else {
     alert("Geolocation is not supported by this browser.");
