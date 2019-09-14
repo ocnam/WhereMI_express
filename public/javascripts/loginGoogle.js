@@ -119,25 +119,25 @@ function handleSignoutClick(event) {
   }
 */
 
-window.uploadToYoutube =  async function(urlClip,titolo,metadati){
+window.uploadToYoutube =  async function(urlClip,titolo,metadati,descrizioneClip){
     //Ottieni clip video da URL (hosted cloudinary.com)
     let response = await fetch(urlClip);
     var rawData = await response.blob();
     rawData.type = 'video/mp4';
 
     console.log("Preparo invio dati a Youtube (API)",rawData);
-    uploadRawFile(rawData,titolo,metadati);
+    uploadRawFile(rawData,titolo,metadati,descrizioneClip);
 }
 
-function uploadRawFile (videoclip,titolo,metadatiClip) {
+function uploadRawFile (videoclip,titolo,metadatiClip,descrizioneClip) {
   var token = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token;
   var params = {
     snippet: {
         categoryId: 27,
         title: titolo,
-        description: metadatiClip,
+        description: metadatiClip + "%%%" + descrizioneClip,
         tags: [metadatiClip]
-},
+    },
     status: {
         privacyStatus: 'public',
         embeddable: true
@@ -160,7 +160,7 @@ function uploadRawFile (videoclip,titolo,metadatiClip) {
     processData: false,
   })
     .done(function(response) {
-      console.log("Caricamento completato!",response)
+      console.log("Caricamento completato! YouTube:",response)
       return true;
     })
     .fail(function(response){
