@@ -10,7 +10,7 @@ var player = document.getElementById('player');
 var titoloForm = document.getElementById('titoloMetadati');
 var formMeta = document.getElementById('dettagliClipPanel');
 
-var lastClip,metadatiClip,titoloClip,descrizioneClip;
+var lastClip,metadatiClip,titoloClip,descrizioneClip,openLocationCode;
 var clips = window.getSaveClip();    //Ottieni array clip salvate
 
 update_btn.onclick = function(){
@@ -18,6 +18,7 @@ update_btn.onclick = function(){
   uploadClip();
 }
 
+//Selezione clip 
 function getClip(){
   if(player.readyState == 0){   //nessuna clip precedente, seleziona l'ultima registrazione
     lastClip = clips[clips.length - 1];
@@ -41,21 +42,21 @@ function uploadClip(){
     return;
   }
 
-   //Converto posizione nel codice OLC
+  //Converto posizione nel codice OLC
   var urlCodereverse = "https://plus.codes/api?address=" + window.lat +","+window.long; //URL API di OLC(Plus code)
   $.get(urlCodereverse, function( data ) {
-    var openLocationCode = data.plus_code.global_code;
+    openLocationCode = data.plus_code.global_code;
 
     //Costruisco stringa metadati
     if(categoria != "none"){
       metadatiClip = openLocationCode +":"+scopo+":"+lingua+":"+categoria +":A"+ pubblico +":P"+dettaglio;
     }else{
-      metadatiClip = openLocationCode +":"+scopo+":"+lingua+":*";     //metadati base 
+      metadatiClip = openLocationCode +":"+scopo+":"+lingua+":*";     //metadati base
     }
-
     console.log("Metadati:",metadatiClip);
+    console.log("DESC:", descrizioneClip);
 
-    if(titoloClip!=""){  
+    if(titoloClip!=""){
       sendClipServer();   //richiamo funzione chiamata server
 
       //Cambiamenti UI
@@ -70,31 +71,34 @@ function sendClipServer(){
   //Converto i dati grezzi del flusso audio
   var reader = new window.FileReader();
   reader.readAsDataURL(lastClip.raw);
-  reader.onloadend = function () { 
+  reader.onloadend = function () {
     var clipAudio = reader.result;
 
-    //API server locale --> Clip audio to video 
-    $.post( "/api/audioclip", { 
-      clip: clipAudio, 
-      durata:lastClip.durata, 
+    //API server locale --> Clip audio to video
+    $.post( "/api/audioclip", {
+      clip: clipAudio,
+      durata:lastClip.durata,
       orario:lastClip.orario,
       data: lastClip.data,
       titolo: titoloClip,
-      metadati: metadatiClip + "\nDESC: " + descrizioneClip
+      metadati: metadatiClip,
+      posizione: openLocationCode
     })
       .fail(function(){ alert("Errore richiesta!") })
       .done(function(responseLocal) {
         if(responseLocal.ack = "200 OK"){
           console.log("OK - Conversione in clip video");
-          var success = window.uploadToYoutube(responseLocal.url,responseLocal.titolo,metadatiClip);  //carica filmato su youtube
-          
+
+          //carica filmato su youtube
+          var success = window.uploadToYoutube(responseLocal.url,responseLocal.titolo, metadatiClip, descrizioneClip);
+
           //Cambiamenti UI
           if(success){
             titoloForm.innerText = "Dettagli clip";
             formMeta.classList.remove("bg-warning");
-            alert("Caricamento con successo! \nSarà online in circa 5 minuti");
+            alert("Caricamento con successo! \nSarà online fra pochi minuti");
           }else{alert("Errore caricamento online")}
         }else{alert("500 - Errore interno al server, ritenta!")}
-      }); 
+      });
   }
 }
