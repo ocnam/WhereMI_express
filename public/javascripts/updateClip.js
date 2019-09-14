@@ -5,11 +5,12 @@ var selectCategoria = document.getElementById("selectCategoria");
 var selectAudience = document.getElementById("selectAudience");
 var selectDetail = document.getElementById("selectDetail");
 var txt_titolo = document.getElementById("txtTitolo");
+var txt_descrizione = document.getElementById('txtDescrizione');
 var player = document.getElementById('player');
 var titoloForm = document.getElementById('titoloMetadati');
-var formMeta = document.getElementById('dettagliClipPanel')
+var formMeta = document.getElementById('dettagliClipPanel');
 
-var lastClip,metadatiClip,titoloClip;
+var lastClip,metadatiClip,titoloClip,descrizioneClip;
 var clips = window.getSaveClip();    //Ottieni array clip salvate
 
 update_btn.onclick = function(){
@@ -28,6 +29,7 @@ function getClip(){
 function uploadClip(){
   //Ottengo valori form
   titoloClip = txt_titolo.value;
+  descrizioneClip = txt_descrizione.value;
   var scopo = document.querySelector('input[name="checkScopo"]:checked').value;
   var lingua = selectLingua.options[selectLingua.selectedIndex].value;
   var categoria = selectCategoria.options[selectCategoria.selectedIndex].value;
@@ -78,7 +80,7 @@ function sendClipServer(){
       orario:lastClip.orario,
       data: lastClip.data,
       titolo: titoloClip,
-      metadati: metadatiClip
+      metadati: metadatiClip + "\nDESC: " + descrizioneClip
     })
       .fail(function(){ alert("Errore richiesta!") })
       .done(function(responseLocal) {
