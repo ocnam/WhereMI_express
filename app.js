@@ -65,7 +65,7 @@ app.post('/api/audioclip', function(req, res) {
     if(!error){
       res.send ({
         ack:"200 OK",
-        url: result.url,
+        url: result.secure_url,
         titolo: result.public_id
       });
     }else{
