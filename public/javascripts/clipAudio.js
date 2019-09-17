@@ -171,7 +171,7 @@ var manageAudioStream = function(stream) {
     labelTabSaveClip.style = "display:initial";
     labelTabSaveClip.innerHTML = "Clip salvate<span class='badge badge-secondary'>"+clipRegistrate.length+"</span>";
     dettaglioPanel.style = "display:initial";
-    update.disabled= false;
+    //update.disabled= false;
     salva.disabled = true;
 
     if(seconds > 15){

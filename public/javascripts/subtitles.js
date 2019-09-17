@@ -8,7 +8,7 @@ $(document).ready(function(){
     $('#sub_fr').click(function(){
         $('#tracksub').attr('src', 'subtitles/french_sub.vtt');
     });
-    $('#sub_ge').click(function(){
+    $('#sub_de').click(function(){
         $('#tracksub').attr('src', 'subtitles/german_sub.vtt');
     });
     $('#sub_sp').click(function(){

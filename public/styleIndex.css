@@ -17,14 +17,27 @@ footer.page-footer {
     background-color: #34456a;
 }
 
+#bandiere{
+    vertical-align: center;
+    horiz-align: center;
+}
+
 @media only screen and (max-width: 768px) {
     .navbar {
         background-color: #34456a;
     }
 
+    #bandiere{
+        vertical-align: center;
+        horiz-align: center;
+        margin-left: 100px;
+    }
+
+
    /* #videoPlay{
         display: none;
     }*/
+
     .carousel .carousel-item video {
         /*min-width: 100%;
         min-height: 100%;*/
@@ -63,6 +76,7 @@ body,
 
 
 #carouselSlide {
+    /*margin-top: -100px;*/
     width: 100%;
     height: 100%;
     /*position: relative;*/
@@ -96,3 +110,4 @@ a.gflag:hover {background-image:url(//gtranslate.net/flags/32a.png);}
 .goog-te-menu-value:hover {text-decoration:none !important;}
 body {top:0 !important;}
 #google_translate_element2 {display:none!important;}
+

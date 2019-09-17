@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Where M I</title>
+
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
     <!-- Material Design Bootstrap -->
@@ -70,11 +71,11 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLinkLanguages" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Languages</a>
                     <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#" onclick="doGTranslate('en|en');return false;">English</a>
-                        <a class="dropdown-item" href="#" onclick="doGTranslate('en|it');return false;">Italian</a>
-                        <a class="dropdown-item" href="#" onclick="doGTranslate('en|sp');return false;">Spanish</a>
-                        <a class="dropdown-item" href="#" onclick="doGTranslate('en|fr');return false;">French</a>
-                        <a class="dropdown-item" href="#" onclick="doGTranslate('en|de');return false;">German</a>
+                        <a class="dropdown-item" href="#" onclick="doGTranslate('en|en')">English</a>
+                        <a class="dropdown-item" href="#" onclick="doGTranslate('en|it')">Italian</a>
+                        <a class="dropdown-item" href="#" onclick="doGTranslate('en|sp')">Spanish</a>
+                        <a class="dropdown-item" href="#" onclick="doGTranslate('en|fr')">French</a>
+                        <a class="dropdown-item" href="#" onclick="doGTranslate('en|de')">German</a>
                         <div id="google_translate_element2"></div>
                     </div>
                 </li>
@@ -85,24 +86,38 @@
     </nav>
     <!--/.Navbar-->
 
-<!-- <div id="mapid"></div> -->
 
-<div class="row">
-    <div class="col-sm-9" id="map"></div>
+    <div class="container-fluid">
 
-    <div class="col-sm-3">
-        <div id="controlAndFilters">
-            <button title="Previous"><i class="fa fa-fast-backward"></i></button>
-            <button title="Where M I"><i class="fa fa-play"></i></button>
-            <button title="Next"><i class="fa fa-fast-forward"></i></button>
+            <div id="map">
+                <div id="video"></div>
+            </div>
 
-            <!-- Button trigger modal -->
+    </div>
+
+    <div class="m-5"> <!-- m-5 = margin 5 -->
+        <div class="row" id="clipYT">
+        </div>
+
+    </div> <!-- /container -->
+
+
+    <!--<div class="row">
+        <div class="col-sm-9" id="map"></div>
+
+        <div class="col-sm-3">
+            <div id="controlAndFilters">
+                <button title="Previous"><i class="fa fa-fast-backward"></i></button>
+                <button title="Where M I"><i class="fa fa-play"></i></button>
+                <button title="Next"><i class="fa fa-fast-forward"></i></button>
+    -->
+            <!-- Button trigger modal
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalFilters">
                 Filters
             </button>
+    -->
 
-
-            <!-- Modal FILTERS -->
+            <!-- Modal FILTERS
             <div class="modal fade" id="ModalFilters" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -122,36 +137,16 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- FINE MODAL FILTERS -->
+            </div>-->
+            <!-- FINE MODAL FILTERS
         </div>
     </div>
-</div>
+</div> -->
 
-    <div>Cos’è Lorem Ipsum?
-        Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione. È sopravvissuto non solo a più di cinque secoli, ma anche al passaggio alla videoimpaginazione, pervenendoci sostanzialmente inalterato. Fu reso popolare, negli anni ’60, con la diffusione dei fogli di caratteri trasferibili “Letraset”, che contenevano passaggi del Lorem Ipsum, e più recentemente da software di impaginazione come Aldus PageMaker, che includeva versioni del Lorem Ipsum.
 
-        Perchè lo utilizziamo?
-        È universalmente riconosciuto che un lettore che osserva il layout di una pagina viene distratto dal contenuto testuale se questo è leggibile. Lo scopo dell’utilizzo del Lorem Ipsum è che offre una normale distribuzione delle lettere (al contrario di quanto avviene se si utilizzano brevi frasi ripetute, ad esempio “testo qui”), apparendo come un normale blocco di testo leggibile. Molti software di impaginazione e di web design utilizzano Lorem Ipsum come testo modello. Molte versioni del testo sono state prodotte negli anni, a volte casualmente, a volte di proposito (ad esempio inserendo passaggi ironici).
 
-    </div>
-    <!--   https://app.teral.io/project/setup
-    <div id="google_translate_element"></div><script>
-
-        function googleTranslateElementInit() {
-
-            new google.translate.TranslateElement({
-
-                pageLanguage: 'en'
-
-            }, 'google_translate_element');
-
-        }
-
-    </script><script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    -->
     <!--Footer-->
-    <footer class="page-footer text-center text-md-left">
+    <footer class="page-footer text-center text-md-left" id="footer">
 
         <!--Copyright-->
         <div class="footer-copyright text-center">
@@ -165,12 +160,14 @@
     <!--/.Footer-->
 
     <!-- SCRIPTS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- Bootstrap tooltips -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" ></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
     <!-- Bootstrap core JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" ></script>
-
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.9/js/mdb.min.js"></script>
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
             integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
@@ -210,7 +207,30 @@
         /* ]]> */
     </script>
 
+    <!-- include OLC -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/openlocationcode/1.0.4/openlocationcode.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/openlocationcode/1.0.4/openlocationcode.min.js"></script>
 
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="javascripts/ytBrowser.js"></script>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        var player;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('video', {
+                width: 10,
+                height: 10,
+                playerVars: {'playsinline':'1'}
+            });
+        }
+    </script>
+
+    <!-- <script>
+           if (window.location.protocol != "https:")
+               window.location.href = window.location.href.replace('http', 'https');
+       </script> -->
 
 </body>
 </html>

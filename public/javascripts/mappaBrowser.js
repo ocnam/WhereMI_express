@@ -1,27 +1,47 @@
 var map = L.map('map').fitWorld();
-var exmarker;
+
+var markerPosizioneAttuale;
+var circlePosizioneAttuale;
+var markerSearch;
+var circleSearch;
+
+var markerDraggable;
+var circleDraggable;
+
+var greenIcon = new L.Icon({
+    iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
 
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
     maxZoom: 18,
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-        '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     id: 'mapbox.streets'
 }).addTo(map);
 
 // add location via browser geolocation
 
 function displayLocation(position) {
-    console.log('position', position);
+   // console.log('position', position);
     var lat = position.coords.latitude;
     var lng = position.coords.longitude;
     //L.marker([lat, lng]).addTo(map);
-    console.log('{longitude:' + lng + ', latitude:' + lat + '}');
-    map.setView([lat, lng], 16);
-    exmarker=L.marker([lat, lng]).addTo(map)
+    //console.log('{longitude:' + lng + ', latitude:' + lat + '}');
+    map.setView([lat, lng], 18);
+    markerPosizioneAttuale=L.marker([lat, lng]).addTo(map)
         .bindPopup('TU SEI QUI!')
         .openPopup();
+
+    circlePosizioneAttuale = L.circle([lat, lng], {
+        color: 'red',
+        fillColor: '#f06',
+        fillOpacity: 0.3,
+        radius: 100
+    }).addTo(map);
 }
 
 navigator.geolocation.getCurrentPosition(displayLocation);
@@ -33,9 +53,22 @@ var results = L.layerGroup().addTo(map);
 searchControl.on('results', function (data) {
     results.clearLayers();
     for (var i = data.results.length - 1; i >= 0; i--) {
-        results.addLayer(L.marker(data.results[i].latlng));
-        if (newMarker) {
-            map.removeLayer(newMarker);
+
+         markerSearch = results.addLayer(L.marker(data.results[i].latlng));
+         circleSearch = results.addLayer(L.circle(data.results[i].latlng, {
+            color: 'red',
+            fillColor: '#f06',
+            fillOpacity: 0.3,
+            radius: 100
+        }));
+
+            map.removeLayer(markerPosizioneAttuale);
+            map.removeLayer(circlePosizioneAttuale);
+        if (markerDraggable) {
+            map.removeLayer(markerDraggable);
+        }
+        if (circleDraggable) {
+            map.removeLayer(circleDraggable);
         }
 
     }
@@ -68,12 +101,9 @@ var control = L.Routing.control(L.extend(window.lrmConfig, {
     }
 })).addTo(map);
 
-control.window.hidden;
-
 L.Routing.errorControl(control).addTo(map);
 
-//Draggable marker
-var newMarker;
+
 
 // set the popup information: latlng and address
 function addPopup (marker) {
@@ -92,16 +122,24 @@ function addPopup (marker) {
             road = result_data.address.pedestrian;
         }
         else {
-            road = "No definido";
+            road = "No defined";
         }
+        var olc= OpenLocationCode.encode(marker.getLatLng().lat, marker.getLatLng().lng, 10);
 
-        var popup_text = 	"<b>Latlng:</b> " + marker.getLatLng().lat + ", " + marker.getLatLng().lng +
+        var popup_text = 	"<b>Olc:</b> "+ olc  +
             "</br><b>Road:</b> " + road + ", " + result_data.address.house_number +
             "</br><b>City:</b> " + result_data.address.city +
             "</br><b>Postal Code:</b> " + result_data.address.postcode;
 
         marker.bindPopup(popup_text).openPopup();
-        map.removeLayer(exmarker);
+
+        map.removeLayer(markerPosizioneAttuale);
+        map.removeLayer(circlePosizioneAttuale);
+        if(markerSearch) {
+            map.removeLayer(markerSearch);
+            map.removeLayer(circleSearch);
+        }
+
 
     });
 
@@ -112,22 +150,30 @@ function addPopup (marker) {
 map.on('click', function(e) {
 
     // removes old marker
-    if (newMarker) {
-        map.removeLayer(newMarker);
+    if (markerDraggable) {
+        map.removeLayer(markerDraggable);
+    }
+    if (circleDraggable) {
+        map.removeLayer(circleDraggable);
     }
 
     // add draggable marker
-    newMarker = L.marker([e.latlng.lat, e.latlng.lng], {draggable: true})
+    circleDraggable = L.circle([e.latlng.lat, e.latlng.lng], {
+        color: 'red',
+        fillColor: '#f06',
+        fillOpacity: 0.3,
+        radius: 100
+    }).addTo(map);
+    markerDraggable = L.marker([e.latlng.lat, e.latlng.lng], {draggable: true})
         .addTo(map)
         .on('dragend', function(e) {
 
             // add popup information on dragged marker
-            addPopup(newMarker);
+            addPopup(markerDraggable);
         });
 
     // add popup information on new marker
-    addPopup(newMarker);
-
+    addPopup(markerDraggable);
 });
 
 
