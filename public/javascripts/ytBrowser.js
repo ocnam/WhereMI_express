@@ -192,29 +192,31 @@ function loadClient() {
                 console.log(descriptionFinal);
 
                 var markerPopup =` 
-                <div class="card">
+                <div id="${varVideoId}mappa" class="card" style="width:100%; height: 100%; ">
                     <div class="card-body">
-                        <h5 class="card-title">${titleFinal}</h5>
-                            <div class="card-footer text-center">
+                        <a class="card-title" href="https://www.google.com/search?q=+${titleFinal}" style="color: black; text-align: center; font-size: large"><strong>${titleFinal}</strong></a>
+                          <!--  <div class="card-footer text-center">
                                    <button title="Previous"><i class="fa fa-fast-backward"></i></button>
                                    <button id="var" title="Play"><i class="fa fa-play"></i></button>
                                    <button class="pause" title="Pause"><i class="fa fa-pause"></i></button>
                                    <button title="Next"><i class="fa fa-fast-forward"></i></button>
-                            </div>
-                    </div>
-                </div>
-                     `;
+                            </div> -->
+                     </div>
+                            <div id="${varVideoId}mappa" class="card-footer text-center">
+                                <a href="#${varVideoId}link"><h5>Vai alla clip</h5></a>
+                             </div>
+                </div> `;
 
                 marker = new L.marker([coordinate.latitudeCenter, coordinate.longitudeCenter], {icon: greenIcon})
                     .bindPopup(markerPopup)
                     .addTo(map);
 
                $("#clipYT").append(`
-                   <div class= "col-md-3 mb-2">
+                   <div id="${varVideoId}link" class= "col-md-3 mb-2">
                         <div class="card h-100" > <!--h-100 setta la stessa altezza a tutte le card -->
-                             <div class="card-body">
-                                 <h5 class="card-title">${titleFinal}</h5>
-                                 <p class="card-text" id="description">${descriptionFinal}</p>
+                             <div class="card-body"  style="background-color: #34456a;">
+                                 <a class="card-title" style="color: white" href="https://www.google.com/search?q=+${titleFinal}"><strong>${titleFinal}</strong></a>
+                                 <p class="card-text" id="description" style="color: white;">${descriptionFinal}</p>
                              </div>
                              
                              <ul class="list-group list-group-flush">
@@ -224,12 +226,17 @@ function loadClient() {
                                  <li class="list-group-item"><strong>Audiance: </strong>${audianceFinal}</li>
                                  <li class="list-group-item"><strong>Detail: </strong>${detailFinal}</li>
                              </ul>
-                             <div class="card-footer text-center m-1">
-                                   <button id="previous" title="Previous"><i class="fa fa-fast-backward"></i></button>
+                             <div class="card-footer text-center">
+                                  <!-- <button class="previous btn" title="Previous"><i class="fa fa-backward" id="previous"></i></button>
+                                   <button id="${varVideoId}" class="btn" title="Play"><i class="fa fa-play-circle"></i></button>
+                                   <button class="pause btn" title="Pause"><i class="fa fa-pause-circle"></i></button>
+                                   <button id="next" class="next btn" title="Next"><i class="fa fa-forward"></i></button> -->
+                                   <button class="previous"><i class="fa fa-backward"></i></button>
                                    <button id="${varVideoId}" title="Play"><i class="fa fa-play"></i></button>
                                    <button class="pause" title="Pause"><i class="fa fa-pause"></i></button>
-                                   <button id="next" title="Next"><i class="fa fa-fast-forward"></i></button>
-                              </div>                                   
+                                   <button class="next" title="Next"><i class="fa fa-fast-forward"></i></button>
+                                   <a id="${varVideoId}mappa" class="float-right"><i class="fas fa-map-marked-alt fa-2x"></i></a>
+                             </div>                                   
                         </div>
                    </div>
                    <script>
@@ -239,7 +246,34 @@ function loadClient() {
                             
                              $(".pause").click(function(){
                                 player.pauseVideo();
-                            })
+                            });
+                             
+                             $(".previous").click(function() {
+                                console.log("previous");
+                                player.previousVideo();
+                               // player.playVideo();
+                            });
+
+                            $(".next").click(function() {
+                               console.log("next");
+                               player.nextVideo();
+                               //player.playVideo();
+                             });
+                             
+                            $("#${varVideoId}mappa").on("click", function(event){
+                                var $theId = "${varVideoId}mappa";
+                                $.each(map._layers, function(i, item){
+                                    if(this.options.myCustomId == $theId){
+                                        this.openPopup();
+                                        map.panTo(this._latlng)
+                                    }
+                              /* $.each(map._layers, function(i, item){
+                                 if(this.options.myCustomId == "${varVideoId}mappa"){
+                                    this.openPopup();
+                                     map.flyTo(this._latlng)
+                                 }*/
+                                });
+                                 });
                             
                              /*$("#next").click(function(){
                                  var next= mio_array[Math.random()*50];

@@ -5,10 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
     <title>Where M I</title>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
     <!-- Material Design Bootstrap -->
@@ -31,7 +32,10 @@
 
     <!-- button play, next,.. script -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Include Font Awesome -->
+    <script src="https://kit.fontawesome.com/420702029d.js"></script>
 </head>
 
 <body>
@@ -55,14 +59,9 @@
                     <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item dropdown active">
-                    <a class="nav-link dropdown-toggle" href="/browser" id="navbarDropdownMenuLinkBrowser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Browser
+                    <a class="nav-link" href="/browser">Browser
                         <span class="sr-only">(current)</span>
                     </a>
-                    <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Next</a>
-                        <a class="dropdown-item" href="#">Previous</a>
-                        <a class="dropdown-item" href="#">More</a>
-                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/editor">Editor</a>
@@ -97,6 +96,7 @@
 
     <div class="m-5"> <!-- m-5 = margin 5 -->
         <div class="row" id="clipYT">
+
         </div>
 
     </div> <!-- /container -->

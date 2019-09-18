@@ -47,12 +47,14 @@ function uploadClip(){
   $.get(urlCodereverse, function( data ) {
     openLocationCode = data.plus_code.global_code;
 
+
+    console.log(categoria);
     //Costruisco stringa metadati
-    if(categoria != "none"){
-      metadatiClip = openLocationCode +":"+scopo+":"+lingua+":"+categoria +":A"+ pubblico +":P"+dettaglio;
-    }else{
+   // if(categoria != "none"){
+      metadatiClip = openLocationCode +":"+scopo+":"+lingua+":"+categoria +":"+ pubblico +":"+dettaglio;
+    /*}else{
       metadatiClip = openLocationCode +":"+scopo+":"+lingua+":*";     //metadati base
-    }
+    }*/
     console.log("Metadati:",metadatiClip);
     console.log("DESC:", descrizioneClip);
 

@@ -33,7 +33,7 @@ function displayLocation(position) {
     //console.log('{longitude:' + lng + ', latitude:' + lat + '}');
     map.setView([lat, lng], 18);
     markerPosizioneAttuale=L.marker([lat, lng]).addTo(map)
-        .bindPopup('TU SEI QUI!')
+        .bindPopup(`<h5><strong>YOU ARE HERE!</strong></h5>`)
         .openPopup();
 
     circlePosizioneAttuale = L.circle([lat, lng], {
@@ -103,6 +103,40 @@ var control = L.Routing.control(L.extend(window.lrmConfig, {
 
 L.Routing.errorControl(control).addTo(map);
 
+/*
+function createButton(label, container) {
+    var btn = L.DomUtil.create('button', '', container);
+    btn.setAttribute('type', 'button');
+    btn.innerHTML = label;
+    return btn;
+}
+
+map.on('click', function(e) {
+    var container = L.DomUtil.create('div'),
+        startBtn = createButton('Start from this location', container),
+        destBtn = createButton('Go to this location', container);
+
+    L.popup()
+        .setContent(container)
+        .setLatLng(e.latlng)
+        .openOn(map);
+});
+
+L.DomEvent.on(startBtn, 'click', function() {
+    control.spliceWaypoints(0, 1, e.latlng);
+    map.closePopup();
+});
+
+L.DomEvent.on(destBtn, 'click', function() {
+    control.spliceWaypoints(control.getWaypoints().length - 1, 1, e.latlng);
+    map.closePopup();
+});
+/*
+L.popup()
+    .setContent(container)
+    .setLatLng(e.latlng)
+    .openOn(map);
+*/
 
 
 // set the popup information: latlng and address
@@ -147,7 +181,7 @@ function addPopup (marker) {
 
 
 // add new marker on click
-map.on('click', function(e) {
+map.on('dblclick', function(e) {
 
     // removes old marker
     if (markerDraggable) {
@@ -175,5 +209,4 @@ map.on('click', function(e) {
     // add popup information on new marker
     addPopup(markerDraggable);
 });
-
 
