@@ -1,4 +1,7 @@
-gapi.load("client", loadClient);
+function handleYTClientLoad() {
+    gapi.load("client", loadClient);
+}
+
 //var mio_array = new Array();
 //var i;
 var greenIcon = new L.Icon({
