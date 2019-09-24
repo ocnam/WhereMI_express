@@ -207,6 +207,7 @@
     <script src="javascripts/config.js"></script>
     <script src="javascripts/mappaBrowser.js"></script>
 
+    <!-- Google Translate -->
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"></script>
     <script type="text/javascript">
         function googleTranslateElementInit2() {new google.translate.TranslateElement({pageLanguage: 'en',autoDisplay: false}, 'google_translate_element2');}
@@ -219,24 +220,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/openlocationcode/1.0.4/openlocationcode.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/openlocationcode/1.0.4/openlocationcode.min.js"></script>
 
-    <!-- <script src="https://apis.google.com/js/api.js"></script> -->
-    <!-- Google API -->
-    <script async defer src="https://apis.google.com/js/api.js"
-        onload="this.onload=function(){};handleClientLoad();handleYTClientLoad()"
-        onreadystatechange="if (this.readyState === 'complete') this.onload()">
-    </script>
+    <!-- Gestione youtube e login -->
     <script src="javascripts/loginGoogle.js"> </script>
     <script src="javascripts/ytBrowser.js"></script>
 
+    <!-- Google API -->
+    <script async defer 
+        src="https://apis.google.com/js/api.js"
+        onload="this.onload=function(){};handleClientLoad();handleYTClientLoad();"
+        onreadystatechange="if(this.readyState === 'complete') this.onload()">
+    </script>
+    <!-- <script src="https://apis.google.com/js/api.js"></script> -->
+ 
+    <!-- Player YT(iframe) -->
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         var player;
-
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('video', {
                 width: 10,
                 height: 10,
-                playerVars: {'playsinline':'1'}
+                playerVars: {'playsinline':'1','origin':'https://site181938.tw.cs.unibo.it'}
             });
         }
     </script>

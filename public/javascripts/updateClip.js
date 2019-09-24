@@ -87,12 +87,12 @@ function sendClipServer(){
       posizione: openLocationCode
     })
       .fail(function(){ alert("Errore richiesta!") })
-      .done(function(responseLocal) {
+      .done(async function(responseLocal) {
         if(responseLocal.ack = "200 OK"){
           console.log("OK - Conversione in clip video");
 
           //carica filmato su youtube
-          var success = window.uploadToYoutube(responseLocal.url,responseLocal.titolo, metadatiClip, descrizioneClip);
+          var success = await window.uploadToYoutube(responseLocal.url,responseLocal.titolo, metadatiClip, descrizioneClip);
 
           //Cambiamenti UI
           if(success){

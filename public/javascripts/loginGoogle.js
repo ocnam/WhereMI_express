@@ -15,7 +15,7 @@ const CLIENT_ID = [
 "954243260601-tsg6ehaeg4pma83lekjbkb3ut1ukp0cr.apps.googleusercontent.com",
 "77613934136-ptfkras4muhhosos168148fkne2eertm.apps.googleusercontent.com",
 "20350970616-95jl37dj5jukilg9c4egatiq3rr6h1je.apps.googleusercontent.com"];
-var index = 0;
+var index = 1;
 
 // Array of API discovery doc URLs for APIs used by the quickstart
 var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/people/v1/rest"];
@@ -37,6 +37,11 @@ var update = document.getElementById('update');
  *  On load, called to load the auth2 library and API client library.
  */
 function handleClientLoad() {
+    var isSecureOrigin = location.protocol === 'https:' || location.host.includes('localhost');
+    if (!isSecureOrigin) {
+        location.protocol = 'HTTPS';
+        console.log("Passo a HTTPS!");
+    }
     gapi.load('client:auth2', initClient);
 }
 
@@ -59,7 +64,7 @@ function initClient() {
         updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
         authorizeButton.onclick = handleAuthClick;
         signoutButton.onclick = handleSignoutClick;
-        utenteButton.onclick =handleAuthClick;
+        if(utenteButton){utenteButton.onclick = handleAuthClick;}
     },  function(err) { console.error("Error loading GAPI client for API", err); });
 }
 
@@ -71,17 +76,23 @@ function updateSigninStatus(isSignedIn) {
     if (isSignedIn) {
         authorizeButton.style.display = 'none';
         signoutButton.style.display = 'block';
-        utenteButton.style.display='none';
+       
+        //Elementi statici presenti solo nel editor
+        if(utenteButton||update){
+          utenteButton.style.display='none';
+          update.disabled=false;
+        }
         //document.getElementById("update").display = 'initial';
         //document.getElementById("update").disabled = false;
-        update.disabled=false;
     }
     else {
         authorizeButton.style.display = 'block';
         signoutButton.style.display = 'none';
-        utenteButton.style.display='none';
-
-        update.disabled=true;
+        if(utenteButton||update){
+          utenteButton.style.display='none';
+          update.disabled=true;
+        } 
+       
     }
 }
 
@@ -92,8 +103,10 @@ function handleAuthClick(event) {
     if(gapi.auth2.getAuthInstance().isSignedIn.get())
     {
         alert("Sei già loggato");
-        utenteButton.style.display='none';
-        update.disabled=false;
+        if(utenteButton||update){
+          utenteButton.style.display='none';
+          update.disabled=false;
+        } 
     }
     else{
         gapi.auth2.getAuthInstance().signIn();
@@ -127,9 +140,10 @@ window.uploadToYoutube =  async function(urlClip,titolo,metadati,descrizioneClip
 
     console.log("Preparo invio dati a Youtube (API)",rawData);
     uploadRawFile(rawData,titolo,metadati,descrizioneClip);
+    return true;
 }
 
-function uploadRawFile (videoclip,titolo,metadatiClip,descrizioneClip) {
+async function uploadRawFile (videoclip,titolo,metadatiClip,descrizioneClip) {
   var token = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token;
   var params = {
     snippet: {
@@ -150,6 +164,7 @@ function uploadRawFile (videoclip,titolo,metadatiClip,descrizioneClip) {
   request.append('video', metadatiYoutube);
   request.append('mediaBody', videoclip);
 
+  var okUpload;
   //Upload via API youtube (POST)
   $.ajax({
     method: 'POST',
