@@ -15,7 +15,7 @@ const CLIENT_ID = [
 "954243260601-tsg6ehaeg4pma83lekjbkb3ut1ukp0cr.apps.googleusercontent.com",
 "77613934136-ptfkras4muhhosos168148fkne2eertm.apps.googleusercontent.com",
 "20350970616-95jl37dj5jukilg9c4egatiq3rr6h1je.apps.googleusercontent.com"];
-var index = 1;
+var index = 0;
 
 // Array of API discovery doc URLs for APIs used by the quickstart
 var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/people/v1/rest"];
