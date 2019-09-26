@@ -9,7 +9,6 @@
 
     <title>Where M I</title>
 
-
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
     <!-- Material Design Bootstrap -->
@@ -78,7 +77,19 @@
                         <div id="google_translate_element2"></div>
                     </div>
                 </li>
-
+                <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuPreferences" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Preferences</a>
+                        <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuPreferences">
+                                <a class="dropdown-item" id="navbarDropdownPrefLang" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Clip language</a>
+                                <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownPrefLang">
+                                        <button class="dropdown-item" href="#" onclick="getLangPref(this)" value="eng">English</button>
+                                        <button class="dropdown-item" href="#" onclick="getLangPref(this)" value="ita">Italian</button>
+                                        <button class="dropdown-item" href="#" onclick="getLangPref(this)" value="esp">Spanish</button>
+                                        <button class="dropdown-item" href="#" onclick="getLangPref(this)" value="fra">French</button>
+                                        <button class="dropdown-item" href="#" onclick="getLangPref(this)" value="deu">German</button>
+                                </div>
+                        </div>
+                    </li>
             </ul>
             <ul class="navbar-nav">
                 <button type="button" class="btn btn-default btn-sm" onclick="handleAuthClick()" id="authorize_button" style="display: none; font-size: 14px">
@@ -102,13 +113,58 @@
 
     </div>
 
-    <div class="m-5"> <!-- m-5 = margin 5 -->
-        <div class="row" id="clipYT">
-
+    <div class="m-5">   
+        <div class="row">
+            <div class="col-3">
+                    <label class="labelDettagli" for="panelLingua">Filtra Clip per:</label>
+                    <div class="input-group mb-3 selectDettagli" id="panelLingua">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="selectLingua">Language</label>
+                        </div>
+                        <select class="custom-select" id="selectLingua">
+                            <option value="ita" selected>Italiano</option>
+                            <option value="eng">Inglese</option>
+                            <option value="deu">Tedesco</option>
+                            <option value="fra">Francese</option>
+                            <option value="esp">Spagnolo</option>
+                        </select>
+                    </div>
+            </div>
+            <div class="col-3">
+                    <label class="labelDettagli" for="panelDetail">Filtra Clip per:</label>
+                    <div class="input-group mb-3" id="panelDetail">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="selectDetail">Detail</label>
+                        </div>
+                        <select id="selectDetail" class="form-control">
+                                <option value="1" selected>Normale(1)</option>
+                                <option value="2">Approfondito(2)</option>
+                                <option value="3">Molto Approfondito(3)</option>
+                                <option value="4">Poema esagerato(4)</option>
+                        </select>
+                    </div>
+            </div>
+            <div class="col-3">
+                    <label class="labelDettagli" for="panelAudience">Filtra Clip per:</label>
+                    <div class="input-group mb-3" id="panelDetail">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="selectAudience">Audience</label>
+                        </div>
+                        <select id="selectAudience" class="form-control">
+                                <option value="gen" selected>Generico</option>
+                                <option value="pre">Pre-scolare</option>
+                                <option value="elm">Elementari</option>
+                                <option value="mid">Scuola media</option>
+                                <option value="scl">Specializzato</option>
+                    </select>
+                    </div>
+            </div>
+            <div class="col-3" style="text-align: center">
+                <button class="btn btn-primary" style="margin-top: 6%" id="btn_Filter">Filtra!</button>
+            </div>
         </div>
-
+        <div class="row" id="clipYT"></div>
     </div> <!-- /container -->
-
 
     <!--<div class="row">
         <div class="col-sm-9" id="map"></div>

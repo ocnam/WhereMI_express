@@ -13,6 +13,25 @@ var greenIcon = new L.Icon({
     shadowSize: [41, 41]
 });
 
+var lang_filter,audience_filter,details_filter,clipLanguagePreference;
+
+document.getElementById('btn_Filter').onclick = function(){
+    var selectLang = document.getElementById("selectLingua");
+    var selectAudience = document.getElementById("selectDetail");
+    var selectDetails = document.getElementById("selectAudience");
+
+    var lang_filter = selectLang.options[selectLang.selectedIndex].value;
+    var audience_filter = selectAudience.options[selectAudience.selectedIndex].value;
+    var details_filter = selectDetails.options[selectDetails.selectedIndex].value;
+
+    alert("Dovrei filtrare per:"+ lang_filter +" | "+ audience_filter +" | "+ details_filter);
+}
+
+function getLangPref(item){
+    clipLanguagePreference = item.value;
+    alert("Preferenza lingua cambiata in:" + item.innerText + "("+clipLanguagePreference+")");
+}
+
 function loadClient() {
     gapi.client.setApiKey("AIzaSyBB87_JyTcyEldzmqN83ZO_e4Tfps5Dfzg");
     return gapi.client.load("youtube","v3", function () {
