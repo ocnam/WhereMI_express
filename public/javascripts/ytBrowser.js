@@ -17,18 +17,19 @@ var lang_filter,audience_filter,details_filter,clipLanguagePreference;
 
 document.getElementById('btn_Filter').onclick = function(){
     var selectLang = document.getElementById("selectLingua");
-    var selectAudience = document.getElementById("selectDetail");
-    var selectDetails = document.getElementById("selectAudience");
+    var selectAudience = document.getElementById("selectAudience");
+    var selectDetails = document.getElementById("selectDetail");
+    
+    lang_filter = selectLang.options[selectLang.selectedIndex].value;
+    audience_filter = selectAudience.options[selectAudience.selectedIndex].value;
+    details_filter = selectDetails.options[selectDetails.selectedIndex].value;
 
-    var lang_filter = selectLang.options[selectLang.selectedIndex].value;
-    var audience_filter = selectAudience.options[selectAudience.selectedIndex].value;
-    var details_filter = selectDetails.options[selectDetails.selectedIndex].value;
-
-    alert("Dovrei filtrare per:"+ lang_filter +" | "+ audience_filter +" | "+ details_filter);
+    console.log("Dovrei filtrare per:"+ lang_filter +" | "+ audience_filter +" | "+ details_filter);
+    loadClient();
 }
 
-function getLangPref(item){
-    clipLanguagePreference = item.value;
+function getLangPref(itemSelected){
+    clipLanguagePreference = itemSelected.value;
     alert("Preferenza lingua cambiata in:" + item.innerText + "("+clipLanguagePreference+")");
 }
 
@@ -50,6 +51,9 @@ function loadClient() {
             //for(var y=0; y<arrayIniziale.length; y++){
             //     mio_array[y]=arrayIniziale[y].id.videoId;
             //}
+
+            $("#clipYT").html("");      //pulisco la lista
+            var countFilterItem = 0;
 
             for(var i=0; i<arrayIniziale.length; i++)
             {
@@ -213,6 +217,26 @@ function loadClient() {
                 var descriptionFinal = description.split("%%%")[1];
                 console.log(descriptionFinal);
 
+                var filter_flag = -1;
+
+                if(lang_filter || audience_filter || details_filter){
+                    var AudianceClip = arrayIniziale[i].snippet.description.split(":")[4];
+                    var languageClip = arrayIniziale[i].snippet.description.split(":")[2];
+                    var detailClip = arrayIniziale[i].snippet.description.split("%%%")[0].split(":")[5];
+
+
+                    var matchLang = lang_filter.includes(languageClip);     //per compatibilità (ita e it) 
+                    var matchAudience = (AudianceClip == AudianceClip);
+                    var matchDetail = (detailClip == details_filter);
+
+                    if(matchLang == true && matchAudience == true && matchDetail == true){
+                        filter_flag = 1;
+                        countFilterItem++;
+                    }else{
+                        filter_flag = 0;
+                    }
+                }
+
                 var markerPopup =` 
                 <div id="${varVideoId}mappa" class="card" style="width:100%; height: 100%; ">
                     <div class="card-body">
@@ -233,6 +257,7 @@ function loadClient() {
                     .bindPopup(markerPopup)
                     .addTo(map);
 
+            if(filter_flag == -1 || filter_flag == 1){
                $("#clipYT").append(`
                    <div id="${varVideoId}link" class= "col-md-3 mb-2">
                         <div class="card h-100" > <!--h-100 setta la stessa altezza a tutte le card -->
@@ -305,8 +330,11 @@ function loadClient() {
                            
                     </script>
                ` );
+            }
             }//end for
-
+            if(filter_flag != -1){
+                alert("Elementi filtrati("+ countFilterItem+"/50)");
+            }
         });
 
     });
