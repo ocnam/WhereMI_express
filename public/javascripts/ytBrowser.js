@@ -25,12 +25,17 @@ document.getElementById('btn_Filter').onclick = function(){
     details_filter = selectDetails.options[selectDetails.selectedIndex].value;
 
     console.log("Dovrei filtrare per:"+ lang_filter +" | "+ audience_filter +" | "+ details_filter);
-    loadClient();
+    loadClient();       //aggiorna lista clip
 }
 
 function getLangPref(itemSelected){
     clipLanguagePreference = itemSelected.value;
-    alert("Preferenza lingua cambiata in:" + item.innerText + "("+clipLanguagePreference+")");
+    alert("Preferenza lingua cambiata in:" + itemSelected.innerText + "("+clipLanguagePreference+")");
+
+    if(clipLanguagePreference == "none"){
+        clipLanguagePreference = undefined; 
+    }
+    loadClient();       //aggiorna lista clip
 }
 
 function loadClient() {
@@ -218,13 +223,11 @@ function loadClient() {
                 console.log(descriptionFinal);
 
                 var filter_flag = -1;
+                var AudianceClip = arrayIniziale[i].snippet.description.split(":")[4];
+                var languageClip = arrayIniziale[i].snippet.description.split(":")[2];
+                var detailClip = arrayIniziale[i].snippet.description.split("%%%")[0].split(":")[5];
 
                 if(lang_filter || audience_filter || details_filter){
-                    var AudianceClip = arrayIniziale[i].snippet.description.split(":")[4];
-                    var languageClip = arrayIniziale[i].snippet.description.split(":")[2];
-                    var detailClip = arrayIniziale[i].snippet.description.split("%%%")[0].split(":")[5];
-
-
                     var matchLang = lang_filter.includes(languageClip);     //per compatibilità (ita e it) 
                     var matchAudience = (AudianceClip == AudianceClip);
                     var matchDetail = (detailClip == details_filter);
@@ -236,6 +239,18 @@ function loadClient() {
                         filter_flag = 0;
                     }
                 }
+
+                if(clipLanguagePreference != undefined){
+                    if(filter_flag = -1){
+                        if(clipLanguagePreference.includes(languageClip)){
+                            filter_flag = 1;
+                            countFilterItem++;
+                        }else{
+                            filter_flag = 0;
+                        }
+                    }
+                }
+               
 
                 var markerPopup =` 
                 <div id="${varVideoId}mappa" class="card" style="width:100%; height: 100%; ">
@@ -338,9 +353,5 @@ function loadClient() {
         });
 
     });
-
-
-
-
 }
 
