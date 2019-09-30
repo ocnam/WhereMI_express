@@ -316,19 +316,25 @@ function loadClient() {
                             var action = this.className.split(" ")[1];
                            
                             console.log("RIPRODUCO: " + idVideo);
-                            console.log("Action:" + action);
+                            
+                            if(action!=undefined){
+                                console.log("RIPRODUCO_"+action+": " + idVideo);
+                            }
                             
                             //Player YT
                             player.clearVideo();
                             player.loadVideoById(idVideo);
                             player.playVideo();
 
-                            $("#"+idVideo+"header").css("background-color","#4CAF50");
+                            //Cambiamenti UI header
+                            $("#${varVideoId}header").css("background-color","#4CAF50");
                             $("#${varPrevVideoId}header").css("background-color","#34456a");
                             $("#${varNextVideoid}header").css("background-color","#34456a");
-                            
+                            $("#${varVideoId}header").css("transform","scale(1.1)");
+                            $("#${varNextVideoid}header").css("transform","scale(1.0)");
+                            $("#${varPrevVideoId}header").css("transform","scale(1.0)");
                         });
-                        
+           
                         $(".pause").click(function(){
                             player.pauseVideo();
                         });
