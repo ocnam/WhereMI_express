@@ -39,7 +39,7 @@ function getLangPref(itemSelected){
 }
 
 function loadClient() {
-    gapi.client.setApiKey("AIzaSyBB87_JyTcyEldzmqN83ZO_e4Tfps5Dfzg");
+    //gapi.client.setApiKey("AIzaSyBB87_JyTcyEldzmqN83ZO_e4Tfps5Dfzg");
     return gapi.client.load("youtube","v3", function () {
         console.log("GAPI client loaded for API");
         var results = gapi.client.youtube.search.list({

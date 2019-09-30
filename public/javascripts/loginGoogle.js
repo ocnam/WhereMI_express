@@ -51,7 +51,7 @@ function handleClientLoad() {
  */
 function initClient() {
     gapi.client.init({
-        //apiKey: API_KEY[index],
+        apiKey: API_KEY[index],
         clientId: CLIENT_ID[index],
         discoveryDocs: DISCOVERY_DOCS,
         scope: SCOPES
