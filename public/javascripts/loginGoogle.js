@@ -15,14 +15,14 @@ const CLIENT_ID = [
 "954243260601-tsg6ehaeg4pma83lekjbkb3ut1ukp0cr.apps.googleusercontent.com",
 "77613934136-ptfkras4muhhosos168148fkne2eertm.apps.googleusercontent.com",
 "20350970616-95jl37dj5jukilg9c4egatiq3rr6h1je.apps.googleusercontent.com"];
-var index = 0;
+var index = 2;
 
 // Array of API discovery doc URLs for APIs used by the quickstart
 var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/people/v1/rest"];
 
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
-var SCOPES = "https://www.googleapis.com/auth/youtube"; // https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtube.force-ssl
+var SCOPES = "https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtube";
 
 var authorizeButton = document.getElementById('authorize_button');
 var signoutButton = document.getElementById('signout_button');
