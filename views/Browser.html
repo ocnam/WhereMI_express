@@ -113,56 +113,53 @@
             </div>
 
     </div>
-
-    <div class="m-5">   
-        <div class="row">
-            <div class="col-3">
-                    <label class="labelDettagli" for="panelLingua">Filtra Clip per:</label>
-                    <div class="input-group mb-3 selectDettagli" id="panelLingua">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="selectLingua">Language</label>
-                        </div>
-                        <select class="custom-select" id="selectLingua">
-                            <option value="ita" selected>Italiano</option>
-                            <option value="eng">Inglese</option>
-                            <option value="deu">Tedesco</option>
-                            <option value="fra">Francese</option>
-                            <option value="esp">Spagnolo</option>
-                        </select>
+    <div class="row m-5">
+        <div class="col-md-3">
+                <label class="labelDettagli" for="panelLingua">Filtra Clip per:</label>
+                <div class="input-group mb-3 selectDettagli" id="panelLingua">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="selectLingua">Language</label>
                     </div>
-            </div>
-            <div class="col-3">
-                    <label class="labelDettagli" for="panelDetail">Filtra Clip per:</label>
-                    <div class="input-group mb-3" id="panelDetail">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="selectDetail">Detail</label>
-                        </div>
-                        <select id="selectDetail" class="form-control">
-                                <option value="1" selected>Normale(1)</option>
-                                <option value="2">Approfondito(2)</option>
-                                <option value="3">Molto Approfondito(3)</option>
-                                <option value="4">Poema esagerato(4)</option>
-                        </select>
-                    </div>
-            </div>
-            <div class="col-3">
-                    <label class="labelDettagli" for="panelAudience">Filtra Clip per:</label>
-                    <div class="input-group mb-3" id="panelDetail">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="selectAudience">Audience</label>
-                        </div>
-                        <select id="selectAudience" class="form-control">
-                                <option value="gen" selected>Generico</option>
-                                <option value="pre">Pre-scolare</option>
-                                <option value="elm">Elementari</option>
-                                <option value="mid">Scuola media</option>
-                                <option value="scl">Specializzato</option>
+                    <select class="custom-select" id="selectLingua">
+                        <option value="ita" selected>Italiano</option>
+                        <option value="eng">Inglese</option>
+                        <option value="deu">Tedesco</option>
+                        <option value="fra">Francese</option>
+                        <option value="esp">Spagnolo</option>
                     </select>
+                </div>
+        </div>
+        <div class="col-md-3">
+                <label class="labelDettagli" for="panelDetail">Filtra Clip per:</label>
+                <div class="input-group mb-3" id="panelDetail">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="selectDetail">Detail</label>
                     </div>
-            </div>
-            <div class="col-3" style="text-align: center">
-                <button class="btn btn-primary" style="margin-top: 6%" id="btn_Filter">Filtra!</button>
-            </div>
+                    <select id="selectDetail" class="form-control">
+                            <option value="1" selected>Normale(1)</option>
+                            <option value="2">Approfondito(2)</option>
+                            <option value="3">Molto Approfondito(3)</option>
+                            <option value="4">Poema esagerato(4)</option>
+                    </select>
+                </div>
+        </div>
+        <div class="col-md-3">
+                <label class="labelDettagli" for="panelAudience">Filtra Clip per:</label>
+                <div class="input-group mb-3" id="panelDetail">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="selectAudience">Audience</label>
+                    </div>
+                    <select id="selectAudience" class="form-control">
+                            <option value="gen" selected>Generico</option>
+                            <option value="pre">Pre-scolare</option>
+                            <option value="elm">Elementari</option>
+                            <option value="mid">Scuola media</option>
+                            <option value="scl">Specializzato</option>
+                </select>
+                </div>
+        </div>
+        <div class="col-md-3" style="text-align: center">
+            <button class="btn btn-primary" style="margin-top: 6%" id="btn_Filter">Filtra!</button>
         </div>
         <div class="row" id="clipYT"></div>
     </div> <!-- /container -->
