@@ -63,6 +63,20 @@ function loadClient() {
             for(var i=0; i<arrayIniziale.length; i++)
             {
                 var varVideoId=arrayIniziale[i].id.videoId;
+                var varNextVideoid,varPrevVideoId;
+
+                if(i != (arrayIniziale.length -1)){     //tranne ultimo video
+                    varNextVideoid = arrayIniziale[i+1].id.videoId;
+                }else{
+                    varNextVideoid = arrayIniziale[0].id.videoId;       //ritorno al primo
+                }
+
+                if (i != 0){            //tranne primo video
+                    varPrevVideoId = arrayIniziale[i-1].id.videoId;
+                }else{
+                    var indexLast = arrayIniziale.length-1; //ritorno all'ultimo
+                    varPrevVideoId = arrayIniziale[indexLast].id.videoId;    
+                }
 
                 console.log(varVideoId);
                 var title = arrayIniziale[i].snippet.title;
@@ -250,7 +264,6 @@ function loadClient() {
                         }
                     }
                 }
-               
 
                 var markerPopup =` 
                 <div id="${varVideoId}mappa" class="card" style="width:100%; height: 100%; ">
@@ -268,7 +281,7 @@ function loadClient() {
                              </div>
                 </div> `;
 
-                marker = new L.marker([coordinate.latitudeCenter, coordinate.longitudeCenter], {icon: greenIcon})
+                marker = new L.marker([coordinate.latitudeCenter, coordinate.longitudeCenter], {icon: greenIcon, myCustomId: varVideoId + "mappa"})
                     .bindPopup(markerPopup)
                     .addTo(map);
 
@@ -276,7 +289,7 @@ function loadClient() {
                $("#clipYT").append(`
                    <div id="${varVideoId}link" class= "col-md-3 mb-2">
                         <div class="card h-100" > <!--h-100 setta la stessa altezza a tutte le card -->
-                             <div class="card-body"  style="background-color: #34456a;">
+                             <div class="card-body" id="${varVideoId}header" style="background-color: #34456a;">
                                  <a class="card-title" style="color: white" href="https://www.google.com/search?q=+${titleFinal}"><strong>${titleFinal}</strong></a>
                                  <p class="card-text" id="description" style="color: white;">${descriptionFinal}</p>
                              </div>
@@ -289,60 +302,56 @@ function loadClient() {
                                  <li class="list-group-item"><strong>Detail: </strong>${detailFinal}</li>
                              </ul>
                              <div class="card-footer text-center">
-                                  <!-- <button class="previous btn" title="Previous"><i class="fa fa-backward" id="previous"></i></button>
-                                   <button id="${varVideoId}" class="btn" title="Play"><i class="fa fa-play-circle"></i></button>
-                                   <button class="pause btn" title="Pause"><i class="fa fa-pause-circle"></i></button>
-                                   <button id="next" class="next btn" title="Next"><i class="fa fa-forward"></i></button> -->
-                                   <button class="previous"><i class="fa fa-backward"></i></button>
-                                   <button id="${varVideoId}" title="Play"><i class="fa fa-play"></i></button>
-                                   <button class="pause" title="Pause"><i class="fa fa-pause"></i></button>
-                                   <button class="next" title="Next"><i class="fa fa-fast-forward"></i></button>
-                                   <a id="${varVideoId}mappa" class="float-right"><i class="fas fa-map-marked-alt fa-2x"></i></a>
+                                   <button title="Previus" class="${varPrevVideoId} previus"><i class="fa fa-backward"></i></button>
+                                   <button title="Play"  class="${varVideoId}"><i class="fa fa-play"></i></button>
+                                   <button title="Pause" class="pause" ><i class="fa fa-pause"></i></button>
+                                   <button title="Next"  class="${varNextVideoid} next"><i class="fa fa-fast-forward"></i></button>
+                                   <a id="${varVideoId}mappa" href="#map" class="float-right"><i class="fas fa-map-marked-alt fa-2x"></i></a>
                              </div>                                   
                         </div>
                    </div>
                    <script>
-                            $("#${varVideoId}").click(function(){
-                                player.loadVideoById(this.id);
-                            });
-                            
-                             $(".pause").click(function(){
-                                player.pauseVideo();
-                            });
-                             
-                             $(".previous").click(function() {
-                                console.log("previous");
-                                player.previousVideo();
-                               // player.playVideo();
-                            });
-
-                            $(".next").click(function() {
-                               console.log("next");
-                               player.nextVideo();
-                               //player.playVideo();
-                             });
-                             
-                            $("#${varVideoId}mappa").on("click", function(event){
-                                var $theId = "${varVideoId}mappa";
-                                $.each(map._layers, function(i, item){
-                                    if(this.options.myCustomId == $theId){
-                                        this.openPopup();
-                                        map.panTo(this._latlng)
-                                    }
-                              /* $.each(map._layers, function(i, item){
-                                 if(this.options.myCustomId == "${varVideoId}mappa"){
-                                    this.openPopup();
-                                     map.flyTo(this._latlng)
-                                 }*/
-                                });
-                                 });
-                            
-                             /*$("#next").click(function(){
-                                 var next= mio_array[Math.random()*50];
-                                player.loadVideoById(next.id);
-                            });*/
-                            
+                        $(".${varVideoId}").click(function(){
+                            var idVideo = this.className.split(" ")[0];
+                            var action = this.className.split(" ")[1];
                            
+                            console.log("RIPRODUCO: " + idVideo);
+                            console.log("Action:" + action);
+                            
+                            //Player YT
+                            player.clearVideo();
+                            player.loadVideoById(idVideo);
+                            player.playVideo();
+
+                            $("#"+idVideo+"header").css("background-color","#4CAF50");
+                            $("#${varPrevVideoId}header").css("background-color","#34456a");
+                            $("#${varNextVideoid}header").css("background-color","#34456a");
+                            
+                        });
+                        
+                        $(".pause").click(function(){
+                            player.pauseVideo();
+                        });
+
+                        $("#${varVideoId}mappa").on("click", function(event){
+                            var $theId = "${varVideoId}mappa";
+                            $.each(map._layers, function(i, item){
+                                if(this.options.myCustomId == $theId){
+                                    this.openPopup();
+                                    map.panTo(this._latlng)
+                                }
+                            /* $.each(map._layers, function(i, item){
+                                if(this.options.myCustomId == "${varVideoId}mappa"){
+                                this.openPopup();
+                                    map.flyTo(this._latlng)
+                                }*/
+                            });
+                                });
+                        
+                            /*$("#next").click(function(){
+                                var next= mio_array[Math.random()*50];
+                            player.loadVideoById(next.id);
+                        });*/
                     </script>
                ` );
             }
@@ -354,4 +363,24 @@ function loadClient() {
 
     });
 }
+/*
+function nextVideo(title) {
 
+    console.log(title+"bbbbbbbbb");
+    for (var i = 0; i < arr.length; i++) {
+        var varVideoId = arr[i].id.videoId;
+
+        //console.log(varVideoId);
+        var tit = arr[i].snippet.title;
+        //console.log(tit);
+        var titleFin = tit.split(":")[0];
+        console.log(titleFin);
+        if(titleFin == title)
+        {
+            player.loadVideoById(varVideoId);
+        }
+        // nextVideo(${titleFinal});
+        //player.nextVideo();
+        //player.playVideo();
+    }
+}*/
